@@ -1064,8 +1064,13 @@
                 if (result.success) {
                     const nota = result.data;
                     
-                    // Converter base64 para HTML
-                    const htmlContent = atob(nota.pdf_base64);
+                    // Converter base64 para HTML preservando UTF-8
+                    const binaryStr = atob(nota.pdf_base64);
+                    const bytes = new Uint8Array(binaryStr.length);
+                    for (let i = 0; i < binaryStr.length; i++) {
+                        bytes[i] = binaryStr.charCodeAt(i);
+                    }
+                    const htmlContent = new TextDecoder('utf-8').decode(bytes);
                     
                     // Criar iframe invisível para impressão
                     const iframe = document.createElement('iframe');
