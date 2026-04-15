@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - Sistema</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="fundo"></div>
+    
+    <div class="mobile-menu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle-main">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="http://localhost/anglivery/interface_principal.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/pdv.html">
+                <span class="material-icons">point_of_sale</span> PDV
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/cliente.html">
+                <span class="material-icons">people</span> Clientes
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/funcionario.html">
+                <span class="material-icons">badge</span> Funcionários
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/inventario.html">
+                <span class="material-icons">inventory</span> Inventário
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/vendas.html">
+                <span class="material-icons">shopping_cart</span> Vendas
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/leitor.html">
+                <span class="material-icons">qr_code_scanner</span> Leitor
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/perfil.html">
+                <span class="material-icons">account_circle</span> Perfil
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">logout</span> Sair
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main>
+            <section class="section">
+                <div class="dashboard-container">
+                    <h1 class="section__title" style="text-align: center; margin-bottom: 3rem;">Bem-vindo ao Sistema Anglivery</h1>
+                    
+                    <!-- Métricas do Dia -->
+                    <div class="metrics-card">
+                        <h2 style="color: #223952; margin-bottom: 1.5rem; text-align: center;">Resumo do Dia</h2>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-label">Ganhos do Dia</div>
+                                <div class="metric-value" id="ganhosDia">R$ 0,00</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Produtos Vendidos</div>
+                                <div class="metric-value" id="produtosVendidos">0</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Clientes Atendidos</div>
+                                <div class="metric-value" id="clientesAtendidos">0</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Ticket Médio</div>
+                                <div class="metric-value" id="ticketMedio">R$ 0,00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Principal -->
+                    <div class="buttons-card">
+                        <h2 style="color: #223952; margin-bottom: 2rem; text-align: center;">Menu Principal</h2>
+                        <div class="buttons-grid">
+                            <a href="http://localhost/anglivery/pdv.html" class="menu-button">
+                                <span class="material-icons">point_of_sale</span>
+                                <span>PDV</span>
+                            </a>
+
+                            <a href="http://localhost/anglivery/cliente.html" class="menu-button">
+                                <span class="material-icons">people</span>
+                                <span>Clientes</span>
+                            </a>
+
+                            <a href="http://localhost/anglivery/funcionario.html" class="menu-button">
+                                <span class="material-icons">badge</span>
+                                <span>Funcionários</span>
+                            </a>
+
+                            <a href="http://localhost/anglivery/inventario.html" class="menu-button">
+                                <span class="material-icons">inventory</span>
+                                <span>Inventário</span>
+                            </a>
+
+                            <a href="http://localhost/anglivery/vendas.html" class="menu-button">
+                                <span class="material-icons">shopping_cart</span>
+                                <span>Vendas</span>
+                            </a>
+
+                            <a href="http://localhost/anglivery/leitor.html" class="menu-button">
+                                <span class="material-icons">qr_code_scanner</span>
+                                <span>Leitor</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container2">
+                <p>© 2024 Anglivery. Todos os direitos reservados.</p>
+                <div class="footer__links">
+                    <a href="#">Termos de Serviço</a>
+                    <span>|</span>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado) window.location.href = 'login.html';
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle-main');
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        });
+
+        // Logout ao clicar em Sair
+        document.querySelectorAll('a[href*="login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        async function carregarMetricas() {
+            try {
+                const hoje = new Date();
+                const ano = hoje.getFullYear();
+                const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+                const dia = String(hoje.getDate()).padStart(2, '0');
+                const dataHoje = `${ano}-${mes}-${dia}`;
+                
+                console.log('Carregando métricas do dia:', dataHoje);
+                
+                // Carregar vendas do dia
+                const url = `${API_URL}/vendas.php?usuario_id=${usuarioLogado.id}&data_inicial=${dataHoje}&data_final=${dataHoje}`;
+                console.log('URL:', url);
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                console.log('Resposta da API:', result);
+                
+                if (result.success) {
+                    const vendas = result.data || [];
+                    console.log('Total de vendas hoje:', vendas.length);
+                    console.log('Vendas:', vendas);
+                    
+                    // Calcular métricas
+                    const ganhosDia = vendas.reduce((sum, v) => {
+                        const valor = parseFloat(v.valor) || 0;
+                        console.log('Venda:', v.id, 'Valor:', valor);
+                        return sum + valor;
+                    }, 0);
+                    
+                    const produtosVendidos = Math.round(vendas.reduce((sum, v) => {
+                        const qtd = parseFloat(v.quantidade_total) || 0;
+                        return sum + qtd;
+                    }, 0));
+                    
+                    const clientesUnicos = vendas.length; // Cada venda = 1 cliente
+                    const ticketMedio = vendas.length > 0 ? ganhosDia / vendas.length : 0;
+                    
+                    console.log('Ganhos do dia:', ganhosDia);
+                    console.log('Produtos vendidos:', produtosVendidos);
+                    console.log('Clientes atendidos:', clientesUnicos);
+                    console.log('Ticket médio:', ticketMedio);
+                    
+                    // Atualizar interface
+                    const ganhosDiaEl = document.getElementById('ganhosDia');
+                    const produtosVendidosEl = document.getElementById('produtosVendidos');
+                    const clientesAtendidosEl = document.getElementById('clientesAtendidos');
+                    const ticketMedioEl = document.getElementById('ticketMedio');
+                    
+                    if (ganhosDiaEl) ganhosDiaEl.textContent = `R$ ${ganhosDia.toFixed(2).replace('.', ',')}`;
+                    if (produtosVendidosEl) produtosVendidosEl.textContent = produtosVendidos;
+                    if (clientesAtendidosEl) clientesAtendidosEl.textContent = clientesUnicos;
+                    if (ticketMedioEl) ticketMedioEl.textContent = `R$ ${ticketMedio.toFixed(2).replace('.', ',')}`;
+                } else {
+                    console.error('Erro:', result.message);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar métricas:', error);
+            }
+        }
+        // Carregar ao iniciar
+        carregarMetricas();
+
+        // Função para forçar reload ao entrar na página
+        window.addEventListener('pageshow', (event) => {
+            // Se a página foi carregada do cache (back/forward)
+            if (event.persisted) {
+                console.log('Página restaurada do cache, forçando reload...');
+                window.location.reload();
+            }
+        });
+
+        // Carregar ao iniciar pela primeira vez
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Página carregada, carregando métricas...');
+            carregarMetricas();
+        });
+
+        // Atualizar quando a página ganha foco
+        window.addEventListener('focus', () => {
+            console.log('Página ganhou foco, atualizando métricas...');
+            carregarMetricas();
+        });
+
+        // Atualizar a cada 30 segundos
+        setInterval(carregarMetricas, 30000);
+    </script>
+</body>
+</html>

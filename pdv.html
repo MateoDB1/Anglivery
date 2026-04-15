@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - PDV</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body2">
+
+    <!-- PDV FECHADO -->
+    <div id="pdvFechado">
+        <div class="mobile-menu">
+            <button class="mobile-menu__toggle" id="sidebar-toggle-fechado">
+                <span class="material-icons">menu</span>
+            </button>
+        </div>
+
+        <aside class="sidebar sidebar--fechada" id="sidebar-fechado">
+            <div class="sidebar__header">
+                <a class="logo" href="http://localhost/anglivery/index.html">
+                    <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+                </a>
+            </div>
+            <nav class="nav">
+                <a class="nav__link" href="http://localhost/anglivery/interface_principal.html"><span class="material-icons">home</span> Início</a>
+                <a class="nav__link" href="http://localhost/anglivery/pdv.html"><span class="material-icons">point_of_sale</span> PDV</a>
+                <a class="nav__link" href="http://localhost/anglivery/cliente.html"><span class="material-icons">people</span> Clientes</a>
+                <a class="nav__link" href="http://localhost/anglivery/funcionario.html"><span class="material-icons">badge</span> Funcionários</a>
+                <a class="nav__link" href="http://localhost/anglivery/inventario.html"><span class="material-icons">inventory</span> Inventário</a>
+                <a class="nav__link" href="http://localhost/anglivery/vendas.html"><span class="material-icons">shopping_cart</span> Vendas</a>
+                <a class="nav__link" href="http://localhost/anglivery/leitor.html"><span class="material-icons">qr_code_scanner</span> Leitor</a>
+                <a class="nav__link" href="http://localhost/anglivery/perfil.html"><span class="material-icons">account_circle</span> Perfil</a>
+                <a class="nav__link" href="http://localhost/anglivery/login.html"><span class="material-icons">logout</span> Sair</a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <main>
+                <div class="pdv-fechado-container">
+                    <div class="pdv-fechado-card">
+                        <span class="material-icons pdv-fechado-icon">power_settings_new</span>
+                        <h1 style="color: #F59E0B; margin-bottom: 1rem;">PDV Fechado</h1>
+                        <p style="color: #6b7280; margin-bottom: 2rem;">O ponto de venda está fechado</p>
+
+                        <div class="dados-pdv-anterior">
+                            <h3 style="margin-bottom: 1.5rem; color: #223952;">Último Funcionário</h3>
+                            <div class="dado-row">
+                                <span style="font-weight: 500; color: #6b7280;">Funcionário:</span>
+                                <span style="font-weight: bold;" id="funcAnterior"></span>
+                            </div>
+                            <div class="dado-row">
+                                <span style="font-weight: 500; color: #6b7280;">Data de Fechamento:</span>
+                                <span style="font-weight: bold;" id="dataFechamento"></span>
+                            </div>
+                            <div class="dado-row">
+                                <span style="font-weight: 500; color: #6b7280;">Valor Inicial:</span>
+                                <span style="font-weight: bold; color: #3B82F6; font-size: 1.25rem;" id="valorInicial">R$ 0,00</span>
+                            </div>
+                            <div class="dado-row">
+                                <span style="font-weight: 500; color: #6b7280;">Valor em Vendas:</span>
+                                <span style="font-weight: bold; color: #F59E0B; font-size: 1.25rem;" id="valorVendas">R$ 0,00</span>
+                            </div>
+                            <div class="dado-row" style="border-top: 2px solid #34B08C; padding-top: 1rem; margin-top: 0.5rem;">
+                                <span style="font-weight: 600; color: #223952; font-size: 1.1rem;">Valor Total no Caixa:</span>
+                                <span style="font-weight: bold; color: #34B08C; font-size: 1.5rem;" id="valorArrecadado">R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-abrir-pdv" onclick="abrirModal('modalFuncionario')">
+                            <span class="material-icons" style="font-size: 2rem;">power_settings_new</span>
+                            Abrir PDV
+                        </button>
+
+                        <a href="http://localhost/anglivery/interface_principal.html" class="btn">
+                            <span class="material-icons">arrow_back</span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- PDV ABERTO -->
+    <div id="pdvAberto" style="display: none;">
+        <div class="pdv-aberto-container">
+            <div class="pdv-grid">
+                <div class="pdv-card">
+                    <div class="pdv-info">
+                        <div>
+                            <h2 style="margin: 0; color: #34B08C;">PDV Aberto</h2>
+                            <p style="margin: 0.5rem 0 0 0; color: #6b7280;">Funcionário: <strong id="funcionarioNome">-</strong></p>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.875rem;">Vendas: <strong id="vendasHoje">0</strong> | Total: <strong id="totalHoje">R$ 0,00</strong></p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <button class="btn" onclick="abrirBuscaProduto()">
+                            <span class="material-icons">add_shopping_cart</span> Adicionar
+                        </button>
+                    </div>
+
+                    <div id="itensVenda"></div>
+
+                    <div class="venda-total" id="totalVenda">R$ 0,00</div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn" onclick="abrirModal('modalLimpar')" style="flex: 1; background: #f59e0b;">
+                            <span class="material-icons">delete_sweep</span> Limpar
+                        </button>
+                        <button class="btn" onclick="finalizarVenda()" style="flex: 2; font-size: 1.1rem;">
+                            <span class="material-icons">payment</span> Finalizar Venda
+                        </button>
+                    </div>
+
+                    <button class="btn" onclick="abrirModal('modalFecharPDV')" style="width: 100%; margin-top: 1rem; background: #dc2626;">
+                        <span class="material-icons">power_settings_new</span> Fechar PDV
+                    </button>
+                </div>
+
+                
+
+                <div class="pdv-card">
+                    <h3 style="margin-bottom: 1.5rem;">Produtos Recentes</h3>
+                    <div id="historicoRapido" style="max-height: 600px; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modais -->
+    <div id="modalFuncionario" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Abrir PDV</h2>
+            <form id="formAbrirPDV" onsubmit="event.preventDefault(); confirmarAberturaPDV();">
+                <div class="form-group">
+                    <label>Funcionário*</label>
+                    <select id="funcionarioSelect" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Valor Inicial do Caixa (R$)*</label>
+                    <input type="number" id="valorInicialInput" step="0.01" min="0" value="0" required 
+                        style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem;">
+                    <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
+                        Informe o valor em dinheiro disponível no caixa no início do expediente
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn" style="flex: 1;">
+                        <span class="material-icons">check</span> Confirmar
+                    </button>
+                    <button type="button" class="btn" onclick="fecharModal('modalFuncionario')" style="flex: 1; background: #6b7280;">
+                        <span class="material-icons">close</span> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalBuscaProduto" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Buscar Produto</h2>
+            <input type="text" id="buscaProduto" placeholder="Digite o nome ou código..." style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 0.5rem; margin-bottom: 1rem;">
+            <div id="resultadosBusca" style="max-height: 400px; overflow-y: auto;"></div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <input type="number" id="quantidadeProduto" placeholder="Qtd" min="1" value="1" style="width: 100px; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem;">
+                <button class="btn" onclick="fecharModal('modalBuscaProduto')" style="background: #6b7280;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalFinalizar" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Finalizar Venda</h2>
+            <div style="font-size: 2rem; font-weight: bold; text-align: center; color: #34B08C; margin-bottom: 2rem;" id="totalFinal">R$ 0,00</div>
+            <div class="form-group">
+                <label>Método de Pagamento*</label>
+                <select id="metodoPagamento" onchange="atualizarCamposPagamento()">
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="pix">PIX</option>
+                    <option value="debito">Débito</option>
+                    <option value="credito">Crédito</option>
+                </select>
+            </div>
+            <div class="form-group" id="campoValorPago">
+                <label>Valor Pago</label>
+                <input type="number" id="valorPago" step="0.01">
+                <p id="trocoInfo" style="margin-top: 0.5rem; font-weight: bold;"></p>
+            </div>
+            <div class="form-group">
+                <label>CPF do Cliente (opcional)</label>
+                <input type="text" id="cpfCliente" maxlength="14" placeholder="000.000.000-00">
+                <p id="cpfStatus" class="cpf-status"></p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="confirmarVenda()" style="flex: 1;">Confirmar</button>
+                <button class="btn" onclick="fecharModal('modalFinalizar')" style="flex: 1; background: #6b7280;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalFecharPDV" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="pdv-icon-container" style="margin: 0 auto 1.5rem; width: 100px; height: 100px; background: linear-gradient(135deg, #F59E0B 0%, #F59E0B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: white;">power_settings_new</span>
+            </div>
+            <h2 style="color: #F59E0B; margin-bottom: 1rem;">Fechar PDV</h2>
+            <p style="color: #223952; margin-bottom: 2rem; line-height: 1.6; text-align: center;">
+                Tem certeza que deseja fechar o ponto de venda?<br>
+                Todas as operações pendentes devem ser finalizadas antes.
+            </p>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharPDV()" style="flex: 1; background: #34B08C;"> Sim</button>
+                <button class="btn" onclick="fecharModal('modalFecharPDV')" style="flex: 1; background: #34B08C;"> Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalLimpar" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">delete</span>
+            </div>
+            <h2 style="color: #F59E0B; margin-bottom: 1rem;">Limpar Carrinho</h2>
+                    <p style="color: #223952; margin-bottom: 2rem; line-height: 1.6; text-align: center;">Tem certeza que deseja limpar o carrinho?</p>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="limparVenda(),fecharModal('modalLimpar')" style="flex: 1; background: #34B08C;"> Sim</button>
+                <button class="btn" onclick="fecharModal('modalLimpar')" style="flex: 1; background: #34B08C;"> Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Selecione um funcionário para prosseguir.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso1')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso2" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Adicione produtos no carrinho para finalizar a venda.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso2')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso3" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">O valor pago pelo cliente é insuficiente.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso3')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso4" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #34B08C;">check_circle</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #34B08C;">Venda finalizada</h2>
+            <div class="form-group">
+                <label style="text-align: center;">A venda foi finalizada com sucesso!</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso4'); imprimirNotaFiscal()" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso5" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #34B08C;">check_circle</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #34B08C;">O PDV foi fechado com sucesso!</h2>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso5')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso6" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">O valor inicial não pode ser negativo.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso6')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso7" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro ao abrir o PDV</h2>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso7')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso8" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Ocorreu um erro ao finalizar a venda.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso8')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso9" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro ao fechar o PDV</h2>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso9')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso10" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Erro ao gerar nota fiscal</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso10')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || !usuarioLogado.id) {
+                window.location.href = 'login.html';
+            }
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+
+        // Logout ao clicar em Sair
+        document.querySelectorAll('a[href*="login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        let pdvAberto = false;
+        let funcionarioAtual = '';
+        let funcionarioAtualId = null;
+        let itensVenda = [];
+        let vendasDia = 0;
+        let totalDia = 0;
+        let historicoRecente = [];
+        let produtos = [];
+        let funcionarios = [];
+        let sessaoAtual = null;
+        let valorInicialCaixa = 0;
+
+        // Sidebar fechado
+        const sidebarFechado = document.getElementById('sidebar-fechado');
+        const toggleFechado = document.getElementById('sidebar-toggle-fechado');
+        toggleFechado?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebarFechado.classList.toggle('sidebar--fechada');
+            const icon = toggleFechado.querySelector('.material-icons');
+            icon.textContent = sidebarFechado.classList.contains('sidebar--fechada') ? 'menu' : 'close';
+        });
+
+        async function carregarProdutos() {
+            try {
+                const response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                if (result.success) {
+                    produtos = result.data || [];
+                    console.log('Produtos carregados do banco:', produtos.length);
+                    
+                    // Debug: mostrar alguns produtos no console
+                    if (produtos.length > 0) {
+                        console.log('Exemplo de produto:', produtos[0]);
+                    }
+                } else {
+                    console.error('Erro ao carregar produtos:', result.message);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+            }
+        }
+
+        async function carregarFuncionarios() {
+            try {
+                const response = await fetch(`${API_URL}/funcionarios.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                if (result.success) {
+                    funcionarios = result.data || [];
+                    
+                    // Atualizar select
+                    const select = document.getElementById('funcionarioSelect');
+                    if (select) {
+                        select.innerHTML = '<option value="">Selecione...</option>';
+                        funcionarios.forEach(func => {
+                            if (func.ativo) {
+                                const option = document.createElement('option');
+                                option.value = func.id;
+                                option.textContent = `${func.nome} - ${func.cargo}`;
+                                select.appendChild(option);
+                            }
+                        });
+                    }
+                    console.log('Funcionários carregados:', funcionarios.length);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar funcionários:', error);
+            }
+        }
+
+        async function carregarStatusPDV() {
+            try {
+                console.log('Carregando status PDV...');
+                
+                const response = await fetch(`${API_URL}/pdv.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                
+                console.log('Status PDV completo:', result);
+                
+                if (result.success) {
+                    const data = result.data;
+                    
+                    if (data.pdv_aberto) {
+                        // PDV está aberto - restaurar sessão
+                        console.log('PDV já está aberto, restaurando sessão...');
+                        
+                        pdvAberto = true;
+                        sessaoAtual = data.sessao_id;
+                        funcionarioAtualId = data.funcionario_id;
+                        funcionarioAtual = data.funcionario_nome;
+                        valorInicialCaixa = parseFloat(data.valor_inicial) || 0;
+                        vendasDia = data.quantidade_vendas_dia || 0;
+                        totalDia = parseFloat(data.quantidade_valor_dia) || 0;
+                        
+                        console.log('Sessão restaurada:', {
+                            sessaoId: sessaoAtual,
+                            funcionario: funcionarioAtual,
+                            valorInicial: valorInicialCaixa,
+                            vendas: vendasDia,
+                            total: totalDia
+                        });
+                        
+                        // Atualizar interface
+                        const funcNome = document.getElementById('funcionarioNome');
+                        if (funcNome) funcNome.textContent = funcionarioAtual;
+                        
+                        const vendasHoje = document.getElementById('vendasHoje');
+                        const totalHoje = document.getElementById('totalHoje');
+                        if (vendasHoje) vendasHoje.textContent = vendasDia;
+                        if (totalHoje) totalHoje.textContent = `R$ ${totalDia.toFixed(2)}`;
+                        
+                    } else {
+                        // PDV está fechado
+                        pdvAberto = false;
+                        
+                        const funcAnterior = document.getElementById('funcAnterior');
+                        const valorInicial = document.getElementById('valorInicial');
+                        const valorVendas = document.getElementById('valorVendas');
+                        const valorArrecadado = document.getElementById('valorArrecadado');
+                        const dataFechamento = document.getElementById('dataFechamento');
+                        
+                        console.log('Dados do PDV fechado:', data);
+                        
+                        if (data.funcionario_nome && funcAnterior) {
+                            funcAnterior.textContent = data.funcionario_nome;
+                        } else if (funcAnterior) {
+                            funcAnterior.textContent = 'Nenhum funcionário registrado';
+                        }
+                        
+                        // Valores separados
+                        const valorInic = parseFloat(data.valor_inicial) || 0;
+                        const valorVend = parseFloat(data.quantidade_valor_dia) || 0;
+                        const valorTotal = parseFloat(data.valor_total) || (valorInic + valorVend);
+                        
+                        console.log('Valores calculados:', {
+                            valorInicial: valorInic,
+                            valorVendas: valorVend,
+                            valorTotal: valorTotal
+                        });
+                        
+                        if (valorInicial) {
+                            valorInicial.textContent = `R$ ${valorInic.toFixed(2).replace('.', ',')}`;
+                        }
+                        
+                        if (valorVendas) {
+                            valorVendas.textContent = `R$ ${valorVend.toFixed(2).replace('.', ',')}`;
+                        }
+                        
+                        if (valorArrecadado) {
+                            valorArrecadado.textContent = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+                        }
+                        
+                        if (dataFechamento && data.data_fechamento) {
+                            const dataFech = new Date(data.data_fechamento);
+                            dataFechamento.textContent = dataFech.toLocaleString('pt-BR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                        }
+                    }
+                } else {
+                    console.error('Erro ao carregar status:', result.message);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar status PDV:', error);
+            }
+        }
+
+        function inicializarPDV() {
+            const pdvFechadoDiv = document.getElementById('pdvFechado');
+            const pdvAbertoDiv = document.getElementById('pdvAberto');
+            
+            if (pdvAberto) {
+                if (pdvFechadoDiv) pdvFechadoDiv.style.display = 'none';
+                if (pdvAbertoDiv) pdvAbertoDiv.style.display = 'block';
+                
+                const vendasHoje = document.getElementById('vendasHoje');
+                const totalHoje = document.getElementById('totalHoje');
+                if (vendasHoje) vendasHoje.textContent = vendasDia;
+                if (totalHoje) totalHoje.textContent = `R$ ${totalDia.toFixed(2)}`;
+            } else {
+                if (pdvFechadoDiv) pdvFechadoDiv.style.display = 'block';
+                if (pdvAbertoDiv) pdvAbertoDiv.style.display = 'none';
+            }
+        }
+
+        async function confirmarAberturaPDV() {
+            const select = document.getElementById('funcionarioSelect');
+            const valorInicialInput = document.getElementById('valorInicialInput');
+            
+            if (!select || !valorInicialInput) return;
+            
+            const funcId = select.value;
+            const valorInicial = parseFloat(valorInicialInput.value) || 0;
+            
+            if (!funcId) {
+                const modal = document.getElementById('modalAviso1');
+                if (modal) modal.style.display = 'block';
+                return;
+            }
+            
+            if (valorInicial < 0) {
+                document.getElementById('modalAviso6').style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/pdv.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ 
+                        funcionario_id: parseInt(funcId),
+                        valor_inicial: valorInicial
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    sessaoAtual = result.data.sessao_id;
+                    funcionarioAtualId = parseInt(funcId);
+                    funcionarioAtual = result.data.funcionario_nome;
+                    valorInicialCaixa = valorInicial;
+                    pdvAberto = true;
+                    vendasDia = 0;
+                    totalDia = 0;
+                    
+                    fecharModal('modalFuncionario');
+                    inicializarPDV();
+                    
+                    const funcNome = document.getElementById('funcionarioNome');
+                    if (funcNome) funcNome.textContent = funcionarioAtual;
+                    
+                    atualizarHistoricoRapido();
+                } else {
+                    document.getElementById('modalAviso7').style.display = 'block';
+                    console('Erro ao abrir PDV: ' + result.message);
+                }
+            } catch (error) {
+                document.getElementById('modalAviso7').style.display = 'block';
+                console.error('Erro ao abrir PDV:', error);
+            }
+        }
+
+        function atualizarHistoricoRapido() {
+            const div = document.getElementById('historicoRapido');
+            if (!div) return;
+            
+            div.innerHTML = '';
+            const ultimos = historicoRecente.slice(-10).reverse();
+            ultimos.forEach(produto => {
+                const item = document.createElement('div');
+                item.className = 'historico-item';
+                item.style.padding = '0.75rem';
+                item.style.cursor = 'pointer';
+                item.style.borderBottom = '1px solid #e5e7eb';
+                item.style.transition = 'background-color 0.2s';
+                item.style.marginBottom = '0.25rem';
+                item.style.borderRadius = '0.25rem';
+                
+                item.onmouseenter = () => item.style.backgroundColor = '#f3f4f6';
+                item.onmouseleave = () => item.style.backgroundColor = 'transparent';
+                
+                const valor = parseFloat(produto.valor_de_venda) || 0;
+                item.innerHTML = `<strong>${produto.nome}</strong><br>R$ ${valor.toFixed(2)}`;
+                
+                // REMOVA QUALQUER onclick AQUI E SUBSTITUA POR:
+                item.dataset.produtoId = produto.id;
+                
+                div.appendChild(item);
+            });
+        }
+
+        const buscaInput = document.getElementById('buscaProduto');
+        if (buscaInput) {
+            // Remover listeners antigos
+            const novoBuscaInput = buscaInput.cloneNode(true);
+            buscaInput.parentNode.replaceChild(novoBuscaInput, buscaInput);
+            
+            // Adicionar novo listener
+            novoBuscaInput.addEventListener('input', (e) => {
+                const termo = e.target.value.toLowerCase();
+                
+                console.log('Buscando por:', termo);
+                console.log('Total de produtos disponíveis:', produtos.length);
+                
+                const resultados = produtos.filter(p => 
+                    p.nome.toLowerCase().includes(termo) || 
+                    (p.codigo_de_barra && p.codigo_de_barra.includes(termo))
+                );
+                
+                console.log('Produtos encontrados:', resultados.length);
+                
+                const div = document.getElementById('resultadosBusca');
+                if (div) {
+                    div.innerHTML = '';
+                    
+                    if (termo.length > 0 && resultados.length === 0) {
+                        div.innerHTML = '<div style="padding: 1rem; text-align: center; color: #6b7280;">Nenhum produto encontrado</div>';
+                    }
+                    
+                    resultados.slice(0, 10).forEach(produto => {
+                        const item = document.createElement('div');
+                        const valorVenda = parseFloat(produto.valor_de_venda) || 0;
+                        item.className = 'produto-busca';
+                        item.style.padding = '1rem';
+                        item.style.cursor = 'pointer';
+                        item.style.borderBottom = '1px solid #e5e7eb';
+                        item.style.transition = 'background-color 0.2s';
+                        
+                        item.onmouseenter = () => item.style.backgroundColor = '#f3f4f6';
+                        item.onmouseleave = () => item.style.backgroundColor = 'transparent';
+                        
+                        item.innerHTML = `
+                            <strong>${produto.nome}</strong><br>
+                            <span style="color: #6b7280; font-size: 0.875rem;">
+                                Código: ${produto.codigo_de_barra || 'N/A'} | 
+                                Estoque: ${produto.quantidade_em_estoque}
+                            </span><br>
+                            <span style="color: #34B08C; font-weight: bold;">R$ ${valorVenda.toFixed(2)}</span>
+                        `;
+                        
+                        item.dataset.produtoId = produto.id;
+                        
+                        div.appendChild(item);
+                    });
+                }
+            });
+        }
+
+        function abrirBuscaProduto() {
+            const modal = document.getElementById('modalBuscaProduto');
+            if (modal) {
+                modal.style.display = 'block';
+                const buscaInput = document.getElementById('buscaProduto');
+                if (buscaInput) {
+                    buscaInput.value = '';
+                    buscaInput.focus();
+                }
+                const resultadosDiv = document.getElementById('resultadosBusca');
+                if (resultadosDiv) {
+                    resultadosDiv.innerHTML = '';
+                }
+            }
+        }
+
+        function adicionarProdutoVenda(produto) {
+            console.log('Adicionando produto:', produto);
+            
+            // Garantir que os valores sejam números
+            const produtoValor = parseFloat(produto.valor_de_venda) || 0;
+            const produtoQuantidade = parseFloat(produto.quantidade_em_estoque) || 0;
+            
+            const qtdInput = document.getElementById('quantidadeProduto');
+            const quantidade = qtdInput ? parseFloat(qtdInput.value) || 1 : 1;
+            
+            const itemExistente = itensVenda.find(i => i.id === produto.id);
+            
+            if (itemExistente) {
+                itemExistente.quantidade += quantidade;
+                console.log('Quantidade atualizada:', itemExistente);
+            } else {
+                const novoItem = {
+                    id: produto.id,
+                    nome: produto.nome,
+                    valor_de_venda: produtoValor,
+                    quantidade: quantidade,
+                    produto_id: produto.id,
+                    valor_unitario: produtoValor
+                };
+                itensVenda.push(novoItem);
+                console.log('Novo item adicionado:', novoItem);
+            }
+            
+            // Adicionar ao histórico recente se não existir
+            const produtoNoHistorico = historicoRecente.find(p => p.id === produto.id);
+            if (!produtoNoHistorico) {
+                // Garantir que o produto no histórico tenha valores numéricos
+                historicoRecente.push({
+                    ...produto,
+                    valor_de_venda: produtoValor,
+                    quantidade_em_estoque: produtoQuantidade
+                });
+                atualizarHistoricoRapido();
+            }
+            
+            // Resetar quantidade para 1
+            if (qtdInput) qtdInput.value = 1;
+            
+            console.log('Carrinho atual:', itensVenda);
+            atualizarVenda();
+            fecharModal('modalBuscaProduto');
+        }
+
+        function atualizarVenda() {
+            const div = document.getElementById('itensVenda');
+            if (!div) return;
+            
+            div.innerHTML = '';
+            let total = 0;
+            
+            itensVenda.forEach((item, index) => {
+                const subtotal = item.valor_de_venda * item.quantidade;
+                total += subtotal;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'venda-item';
+                itemDiv.style.display = 'grid';
+                itemDiv.style.gridTemplateColumns = '2fr 80px 80px 100px 50px';
+                itemDiv.style.gap = '0.5rem';
+                itemDiv.style.alignItems = 'center';
+                itemDiv.style.padding = '0.75rem';
+                itemDiv.style.background = '#f9fafb';
+                itemDiv.style.borderRadius = '0.5rem';
+                itemDiv.style.marginBottom = '0.5rem';
+                
+                itemDiv.innerHTML = `
+                    <div><strong>${item.nome}</strong></div>
+                    <input type="number" class="quantidade-edit" value="${item.quantidade}" min="1" 
+                        onchange="editarQuantidade(${index}, this.value)"
+                        style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.25rem; width: 100%;">
+                    <div>R$ ${item.valor_de_venda.toFixed(2)}</div>
+                    <div><strong>R$ ${subtotal.toFixed(2)}</strong></div>
+                    <button onclick="removerItem(${index})" 
+                            style="background: #dc2626; color: white; border: none; padding: 0.5rem; border-radius: 0.25rem; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 1rem;">delete</span>
+                    </button>
+                `;
+                div.appendChild(itemDiv);
+            });
+            
+            const totalVenda = document.getElementById('totalVenda');
+            if (totalVenda) totalVenda.textContent = `R$ ${total.toFixed(2)}`;
+        }
+
+        function editarQuantidade(index, novaQtd) {
+            itensVenda[index].quantidade = parseFloat(novaQtd) || 1;
+            atualizarVenda();
+        }
+
+        function removerItem(index) {
+            itensVenda.splice(index, 1);
+            atualizarVenda();
+        }
+
+        function limparVenda() {
+            itensVenda = [];
+            atualizarVenda();
+        }
+
+        function finalizarVenda() {
+            if (itensVenda.length === 0) {
+                const modal = document.getElementById('modalAviso2');
+                if (modal) modal.style.display = 'block';
+                return;
+            }
+            
+            const total = itensVenda.reduce((sum, item) => sum + (item.valor_de_venda * item.quantidade), 0);
+            const totalFinal = document.getElementById('totalFinal');
+            if (totalFinal) totalFinal.textContent = `R$ ${total.toFixed(2)}`;
+            
+            const modal = document.getElementById('modalFinalizar');
+            if (modal) modal.style.display = 'block';
+        }
+
+        function atualizarCamposPagamento() {
+            const metodo = document.getElementById('metodoPagamento');
+            const campo = document.getElementById('campoValorPago');
+            if (metodo && campo) {
+                campo.style.display = metodo.value === 'dinheiro' ? 'block' : 'none';
+            }
+        }
+
+        const valorPagoInput = document.getElementById('valorPago');
+        if (valorPagoInput) {
+            valorPagoInput.addEventListener('input', (e) => {
+                const total = itensVenda.reduce((sum, item) => sum + (item.valor_de_venda * item.quantidade), 0);
+                const pago = parseFloat(e.target.value) || 0;
+                const troco = pago - total;
+                const info = document.getElementById('trocoInfo');
+                if (info) {
+                    if (troco >= 0) {
+                        info.textContent = `Troco: R$ ${troco.toFixed(2)}`;
+                        info.style.color = '#34B08C';
+                    } else {
+                        info.textContent = 'Valor insuficiente';
+                        info.style.color = '#dc2626';
+                    }
+                }
+            });
+        }
+
+        // Função para validar CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            
+            let soma = 0, resto;
+            for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i-1, i)) * (11 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+            
+            soma = 0;
+            for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i-1, i)) * (12 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            return resto === parseInt(cpf.substring(10, 11));
+        }
+
+        // Função para formatar CPF
+        function formatarCPFInput(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length <= 11) {
+                return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            }
+            return cpf;
+        }
+
+        async function confirmarVenda() {
+            const metodoSelect = document.getElementById('metodoPagamento');
+            if (!metodoSelect) return;
+            
+            const metodo = metodoSelect.value;
+            const total = itensVenda.reduce((sum, item) => sum + (item.valor_de_venda * item.quantidade), 0);
+            let valor_pago = null;
+            let troco = 0;
+            
+            if (metodo === 'dinheiro') {
+                const valorPagoInput = document.getElementById('valorPago');
+                valor_pago = valorPagoInput ? parseFloat(valorPagoInput.value) || 0 : 0;
+                if (valor_pago < total) {
+                    const modal = document.getElementById('modalAviso3');
+                    if (modal) modal.style.display = 'block';
+                    return;
+                }
+                troco = valor_pago - total;
+            }
+            
+            const cpfInput = document.getElementById('cpfCliente');
+            const cpf = cpfInput ? cpfInput.value.replace(/\D/g, '') : '';
+            let cliente_id = null;
+            
+            // Se CPF foi informado, tentar encontrar o cliente
+            if (cpf && cpf.length === 11) {
+                try {
+                    const response = await fetch(`${API_URL}/clientes.php?usuario_id=${usuarioLogado.id}`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        const clientes = result.data || [];
+                        const clienteEncontrado = clientes.find(c => 
+                            c.cpf && c.cpf.replace(/\D/g, '') === cpf
+                        );
+                        
+                        if (clienteEncontrado) {
+                            cliente_id = clienteEncontrado.id;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar cliente:', error);
+                }
+            }
+            
+            const dadosVenda = {
+                itens: itensVenda.map(item => ({
+                    produto_id: item.id,
+                    quantidade: item.quantidade,
+                    valor_unitario: item.valor_de_venda
+                })),
+                metodo_pagamento: metodo,
+                valor_pago: valor_pago,
+                troco: troco,
+                funcionario_id: funcionarioAtualId,
+                cliente_id: cliente_id
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/vendas.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(dadosVenda)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const vendaId = result.data.venda_id;
+                    
+                    vendasDia++;
+                    totalDia += total;
+                    
+                    const vendasHoje = document.getElementById('vendasHoje');
+                    const totalHoje = document.getElementById('totalHoje');
+                    if (vendasHoje) vendasHoje.textContent = vendasDia;
+                    if (totalHoje) totalHoje.textContent = `R$ ${totalDia.toFixed(2)}`;
+                    
+                    // LIMPAR TODOS OS CAMPOS
+                    itensVenda = [];
+                    atualizarVenda();
+                    
+                    // Limpar campos do modal
+                    if (metodoSelect) metodoSelect.value = 'dinheiro';
+                    const valorPagoInput = document.getElementById('valorPago');
+                    if (valorPagoInput) valorPagoInput.value = '';
+                    if (cpfInput) cpfInput.value = '';
+                    const cpfStatus = document.getElementById('cpfStatus');
+                    if (cpfStatus) {
+                        cpfStatus.textContent = '';
+                        cpfStatus.className = 'cpf-status';
+                    }
+                    const trocoInfo = document.getElementById('trocoInfo');
+                    if (trocoInfo) trocoInfo.textContent = '';
+                    
+                    fecharModal('modalFinalizar');
+                    
+                    // Mostrar modal de sucesso
+                    const modal = document.getElementById('modalAviso4');
+                    if (modal) {
+                        // Armazenar vendaId no modal para uso posterior
+                        modal.dataset.vendaId = vendaId;
+                        modal.style.display = 'block';
+                    }
+                } else {
+                    document.getElementById('modalAviso8').style.display = 'block';
+                    console.error('Erro ao finalizar venda: ' + result.message);
+                }
+            } catch (error) {
+                document.getElementById('modalAviso8').style.display = 'block';
+                console.error('Erro ao conectar com o servidor:', error);
+            }
+        }
+
+        async function imprimirNotaFiscal(vendaId) {
+            try {
+                console.log('Gerando e imprimindo nota fiscal para venda:', vendaId);
+                
+                // Gerar nota fiscal
+                const response = await fetch(`${API_URL}/notas_fiscais.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ venda_id: vendaId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const nota = result.data;
+                    
+                    // Converter base64 para HTML
+                    const htmlContent = atob(nota.pdf_base64);
+                    
+                    // Criar iframe invisível para impressão
+                    const iframe = document.createElement('iframe');
+                    iframe.style.position = 'fixed';
+                    iframe.style.right = '0';
+                    iframe.style.bottom = '0';
+                    iframe.style.width = '0';
+                    iframe.style.height = '0';
+                    iframe.style.border = 'none';
+                    
+                    document.body.appendChild(iframe);
+                    
+                    // Escrever conteúdo e imprimir
+                    const iframeDoc = iframe.contentWindow.document;
+                    iframeDoc.open();
+                    iframeDoc.write(htmlContent);
+                    iframeDoc.close();
+                    
+                    // Aguardar carregamento e imprimir
+                    iframe.onload = () => {
+                        setTimeout(() => {
+                            try {
+                                iframe.contentWindow.focus();
+                                iframe.contentWindow.print();
+                                
+                                // Remover iframe após impressão
+                                setTimeout(() => {
+                                    document.body.removeChild(iframe);
+                                }, 1000);
+                            } catch (e) {
+                                console.error('Erro ao imprimir:', e);
+                                document.body.removeChild(iframe);
+                            }
+                        }, 500);
+                    };
+                    
+                    console.log('Nota fiscal gerada e enviada para impressão');
+                } else {
+                    console.error('Erro ao gerar nota:', result.message);
+                    document.getElementById('modalAviso10').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao gerar nota fiscal:', error);
+                document.getElementById('modalAviso10').style.display = 'block';
+            }
+        }
+
+        async function fecharPDV() {
+            try {
+                const response = await fetch(`${API_URL}/pdv.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ fechar: true })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Atualizar dados da última sessão COM OS VALORES CORRETOS
+                    const funcAnterior = document.getElementById('funcAnterior');
+                    const dataFechamento = document.getElementById('dataFechamento');
+                    const valorInicial = document.getElementById('valorInicial');
+                    const valorVendas = document.getElementById('valorVendas');
+                    const valorArrecadado = document.getElementById('valorArrecadado');
+                    
+                    if (funcAnterior) funcAnterior.textContent = funcionarioAtual;
+                    if (dataFechamento) dataFechamento.textContent = new Date().toLocaleString('pt-BR');
+                    
+                    // Garantir que os valores sejam números
+                    const valorInic = parseFloat(result.data.valor_inicial) || parseFloat(valorInicialCaixa) || 0;
+                    const valorVend = parseFloat(result.data.valor_vendas) || parseFloat(totalDia) || 0;
+                    const valorTot = parseFloat(result.data.valor_total) || (valorInic + valorVend);
+                    
+                    console.log('Valores ao fechar:', {
+                        valorInicial: valorInic,
+                        valorVendas: valorVend,
+                        valorTotal: valorTot
+                    });
+                    
+                    if (valorInicial) {
+                        valorInicial.textContent = 'R$ ' + valorInic.toFixed(2).replace('.', ',');
+                    }
+                    
+                    if (valorVendas) {
+                        valorVendas.textContent = 'R$ ' + valorVend.toFixed(2).replace('.', ',');
+                    }
+                    
+                    if (valorArrecadado) {
+                        valorArrecadado.textContent = 'R$ ' + valorTot.toFixed(2).replace('.', ',');
+                    }
+                    
+                    // Reset
+                    pdvAberto = false;
+                    sessaoAtual = null;
+                    funcionarioAtual = '';
+                    funcionarioAtualId = null;
+                    vendasDia = 0;
+                    totalDia = 0;
+                    valorInicialCaixa = 0;
+                    itensVenda = [];
+                    
+                    atualizarVenda();
+                    fecharModal('modalFecharPDV');
+                    inicializarPDV();
+                    
+                    const modal = document.getElementById('modalAviso5');
+                    if (modal) modal.style.display = 'block';
+                } else {
+                    console.error('Erro ao fechar PDV: ' + result.message);
+                    document.getElementById('modalAviso9').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao fechar PDV:', error);
+                document.getElementById('modalAviso9').style.display = 'block';
+            }
+        }
+
+        function fecharModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.style.display = 'none';
+        }
+
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.style.display = 'block';
+        }
+
+        // Inicializar
+        (async function() {
+            console.log('Inicializando PDV...');
+            await carregarProdutos();
+            await carregarFuncionarios();
+            await carregarStatusPDV();
+            inicializarPDV();
+        })();
+
+        const notaVenda = document.querySelector('#modalAviso4 .btn');
+        if (notaVenda) {
+            notaVenda.onclick = async () => {
+                const modal = document.getElementById('modalAviso4');
+                const vendaId = modal.dataset.vendaId;
+                
+                if (vendaId) {
+                    // Fechar modal primeiro
+                    fecharModal('modalAviso4');
+                    
+                    // Mostrar indicador de loading
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.id = 'loadingNota';
+                    loadingDiv.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(0, 0, 0, 0.8);
+                        color: white;
+                        padding: 2rem;
+                        border-radius: 0.5rem;
+                        z-index: 9999;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 1rem;
+                    `;
+                    loadingDiv.innerHTML = `
+                        <span class="material-icons" style="font-size: 3rem; animation: spin 1s linear infinite;">print</span>
+                        <p>Gerando nota fiscal...</p>
+                    `;
+                    document.body.appendChild(loadingDiv);
+                    
+                    // Adicionar animação de rotação
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes spin {
+                            from { transform: rotate(0deg); }
+                            to { transform: rotate(360deg); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    // Gerar e imprimir nota fiscal
+                    await imprimirNotaFiscal(parseInt(vendaId));
+                    
+                    // Remover loading
+                    setTimeout(() => {
+                        const loading = document.getElementById('loadingNota');
+                        if (loading) {
+                            document.body.removeChild(loading);
+                        }
+                    }, 1000);
+                } else {
+                    fecharModal('modalAviso4');
+                }
+            };
+        }
+
+        // Função para forçar reload ao entrar na página
+        window.addEventListener('pageshow', (event) => {
+            // Se a página foi carregada do cache (back/forward)
+            if (event.persisted) {
+                console.log('Página restaurada do cache, forçando reload...');
+                window.location.reload();
+            }
+        });
+
+        // Refresh quando a página ganha foco
+        window.addEventListener('focus', async () => {
+            console.log('Página ganhou foco, atualizando dados...');
+            await carregarProdutos();
+            await carregarFuncionarios();
+            await carregarStatusPDV();
+            if (pdvAberto) {
+                // Atualizar contadores se PDV estiver aberto
+                const vendasHoje = document.getElementById('vendasHoje');
+                const totalHoje = document.getElementById('totalHoje');
+                if (vendasHoje) vendasHoje.textContent = vendasDia;
+                if (totalHoje) totalHoje.textContent = `R$ ${totalDia.toFixed(2)}`;
+            }
+        });
+
+        // DELEGAÇÃO DE EVENTOS PARA CLIQUE EM PRODUTOS
+        document.addEventListener('click', (event) => {
+            // Verificar se o clique foi em um produto na busca
+            const produtoBuscaElement = event.target.closest('.produto-busca');
+            if (produtoBuscaElement) {
+                event.stopPropagation();
+                const produtoId = parseInt(produtoBuscaElement.dataset.produtoId);
+                
+                // Buscar o produto no array de produtos
+                const produto = produtos.find(p => p.id === produtoId);
+                
+                if (produto) {
+                    // Garantir que os valores sejam números
+                    if (typeof produto.valor_de_venda === 'string') {
+                        produto.valor_de_venda = parseFloat(produto.valor_de_venda) || 0;
+                    }
+                    adicionarProdutoVenda(produto);
+                }
+                return;
+            }
+            
+            // Verificar se o clique foi em um item do histórico
+            const historicoElement = event.target.closest('.historico-item');
+            if (historicoElement) {
+                event.stopPropagation();
+                const produtoId = parseInt(historicoElement.dataset.produtoId);
+                
+                // Buscar o produto no histórico recente
+                const produto = historicoRecente.find(p => p.id === produtoId);
+                
+                if (produto) {
+                    // Garantir que os valores sejam números
+                    if (typeof produto.valor_de_venda === 'string') {
+                        produto.valor_de_venda = parseFloat(produto.valor_de_venda) || 0;
+                    }
+                    const qtdInput = document.getElementById('quantidadeProduto');
+                    if (qtdInput) qtdInput.value = 1;
+                    adicionarProdutoVenda(produto);
+                }
+                return;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cpfClienteInput = document.getElementById('cpfCliente');
+            if (cpfClienteInput) {
+                cpfClienteInput.addEventListener('input', async (e) => {
+                    const cpfFormatado = formatarCPFInput(e.target.value);
+                    e.target.value = cpfFormatado;
+                    
+                    const status = document.getElementById('cpfStatus');
+                    const cpfLimpo = cpfFormatado.replace(/\D/g, '');
+                    
+                    if (cpfLimpo.length === 0) {
+                        status.textContent = '';
+                        status.className = 'cpf-status';
+                        return;
+                    }
+                    
+                    if (cpfLimpo.length === 11) {
+                        const valido = validarCPF(cpfFormatado);
+                        
+                        if (!valido) {
+                            status.textContent = '✗ CPF inválido';
+                            status.className = 'cpf-status';
+                            status.style.color = '#dc2626';
+                            return;
+                        }
+                        
+                        // Verificar se o cliente está cadastrado
+                        try {
+                            const response = await fetch(`${API_URL}/clientes.php?usuario_id=${usuarioLogado.id}`);
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                                const clientes = result.data || [];
+                                const clienteEncontrado = clientes.find(c => 
+                                    c.cpf && c.cpf.replace(/\D/g, '') === cpfLimpo
+                                );
+                                
+                                if (clienteEncontrado) {
+                                    status.textContent = `✓ Cliente: ${clienteEncontrado.nome}`;
+                                    status.className = 'cpf-status';
+                                    status.style.color = '#34B08C';
+                                } else {
+                                    status.textContent = '✓ CPF válido (cliente não cadastrado)';
+                                    status.className = 'cpf-status';
+                                    status.style.color = '#F59E0B';
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Erro ao verificar cliente:', error);
+                            status.textContent = '✓ CPF válido';
+                            status.className = 'cpf-status';
+                            status.style.color = '#34B08C';
+                        }
+                    } else {
+                        status.textContent = '';
+                        status.className = 'cpf-status';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

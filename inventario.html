@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - Inventário</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="fundo"></div>
+    
+    <div class="mobile-menu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle-main">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="http://localhost/anglivery/interface_principal.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/pdv.html">
+                <span class="material-icons">point_of_sale</span> PDV
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/cliente.html">
+                <span class="material-icons">people</span> Clientes
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/funcionario.html">
+                <span class="material-icons">badge</span> Funcionários
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/inventario.html">
+                <span class="material-icons">inventory</span> Inventário
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/vendas.html">
+                <span class="material-icons">shopping_cart</span> Vendas
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/leitor.html">
+                <span class="material-icons">qr_code_scanner</span> Leitor
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/perfil.html">
+                <span class="material-icons">account_circle</span> Perfil
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">logout</span> Sair
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main>
+            <section class="section">
+                <div class="inventario-container">
+                    <h1 class="section__title">Inventário de Produtos</h1>
+                    
+                    <div class="table-card">
+                        <div class="table-wrapper">
+                            <table class="data-table" id="tabelaProdutos">
+                                <thead>
+                                    <tr>
+                                        <th onclick="ordenarTabela('nome')">Nome <span class="material-icons" style="font-size: 1rem;">unfold_more</span></th>
+                                        <th onclick="ordenarTabela('fornecedor')">Fornecedor <span class="material-icons" style="font-size: 1rem;">unfold_more</span></th>
+                                        <th onclick="ordenarTabela('valor_de_venda')">Valor de Venda <span class="material-icons" style="font-size: 1rem;">unfold_more</span></th>
+                                        <th onclick="ordenarTabela('quantidade_em_estoque')">Estoque <span class="material-icons" style="font-size: 1rem;">unfold_more</span></th>
+                                        <th onclick="ordenarTabela('categoria')">Categoria <span class="material-icons" style="font-size: 1rem;">unfold_more</span></th>
+                                        <th>Por Quilo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabela"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn" onclick="carregarProdutos()">
+                                <span class="material-icons">refresh</span> Atualizar
+                            </button>
+                            <button class="btn" onclick="abrirModalCadastro()">
+                                <span class="material-icons">add</span> Cadastrar
+                            </button>
+                            <button class="btn" onclick="abrirModal('modalCategorias')">
+                                <span class="material-icons">category</span> Categorias
+                            </button>
+                            <a href="http://localhost/anglivery/interface_principal.html" class="btn">
+                                <span class="material-icons">arrow_back</span> Voltar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container2">
+                <p>© 2024 Anglivery. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal Produto -->
+    <div id="modalProduto" class="modal">
+        <div class="modal-content">
+            <h2 id="tituloModal" style="margin-bottom: 2rem; color: #F59E0B;">Cadastrar Produto</h2>
+            <form id="formProduto">
+                <input type="hidden" id="produtoId">
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Nome*</label>
+                        <input type="text" id="nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fornecedor*</label>
+                        <input type="text" id="fornecedor" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Código de Barras</label>
+                        <input type="text" id="codigoBarra" placeholder="Deixe em branco para gerar automaticamente">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Valor de Compra (R$)*</label>
+                        <input type="number" step="0.01" id="valorCompra" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Valor de Venda (R$)*</label>
+                        <input type="number" step="0.01" id="valorVenda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantidade*</label>
+                        <input type="number" id="quantidade" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoria*</label>
+                        <select id="categoria" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>NCM</label>
+                        <input type="text" id="ncm" maxlength="8">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="quilo">
+                            <label for="quilo">Vendido por quilo?</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group" style="border: none; padding: 0; margin-top: 1.5rem;">
+                    <button type="submit" class="btn">Salvar</button>
+                    <button type="button" class="btn" onclick="fecharModal('modalProduto')">Cancelar</button>
+                    <button type="button" class="btn" id="btnRemover" onclick="abrirModal('modalRemoverProduto')" style="display: none; background: #dc2626;">Remover</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Remover -->
+    <div id="modalRemoverProduto" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">delete</span>
+            </div>
+            <h2 style="color: #F59E0B; margin-bottom: 1rem;">Remover Produto</h2>
+            <p style="color: #223952; margin-bottom: 2rem;">Tem certeza?</p>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="removerProduto()" style="flex: 1; background: #34B08C;">Sim</button>
+                <button class="btn" onclick="fecharModal('modalRemoverProduto')" style="flex: 1; background: #34B08C;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Categorias -->
+    <div id="modalCategorias" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 2rem; color: #F59E0B;">Gerenciar Categorias</h2>
+            
+            <div class="form-group">
+                <label>Nova Categoria</label>
+                <div style="display: flex; gap: 1rem;">
+                    <input type="text" id="novaCategoria" placeholder="Nome">
+                    <button class="btn" onclick="adicionarCategoria()">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="table-wrapper" style="max-height: 300px;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th style="width: 100px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaCategorias"></tbody>
+                </table>
+            </div>
+
+            <button class="btn" onclick="fecharModal('modalCategorias')" style="margin-top: 1rem;">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modais Sucesso/Erro -->
+    <div id="modalSucesso" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #34B08C;">check_circle</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #34B08C;" id="tituloSucesso">Sucesso</h2>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalSucesso')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalErro" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;" id="mensagemErro"></label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalErro')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+        
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || !usuarioLogado.id) window.location.href = 'login.html';
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle-main');
+        
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        });
+
+        // Logout
+        document.querySelectorAll('a[href*="login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        let produtos = [];
+        let categorias = [];
+        let ordemAtual = { coluna: '', direcao: 'asc' };
+
+        async function carregarProdutos() {
+            try {
+                console.log('Carregando produtos...');
+                const response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                
+                console.log('Resposta da API:', result);
+                
+                if (result.success) {
+                    produtos = result.data || [];
+                    console.log('Produtos carregados:', produtos.length);
+                    renderizarTabela();
+                } else {
+                    console.error('Erro:', result.message);
+                    mostrarErro(result.message || 'Erro ao carregar produtos');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                mostrarErro('Erro ao conectar com o servidor');
+            }
+        }
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('corpoTabela');
+            tbody.innerHTML = '';
+            
+            if (produtos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #6b7280;">Nenhum produto cadastrado</td></tr>';
+                return;
+            }
+            
+            produtos.forEach(produto => {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => editarProduto(produto.id);
+                tr.innerHTML = `
+                    <td>${produto.nome}</td>
+                    <td>${produto.fornecedor || '-'}</td>
+                    <td>R$ ${parseFloat(produto.valor_de_venda).toFixed(2)}</td>
+                    <td>${produto.quantidade_em_estoque}</td>
+                    <td>${produto.categoria || '-'}</td>
+                    <td>${produto.por_quilo ? 'Sim' : 'Não'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function ordenarTabela(coluna) {
+            if (ordemAtual.coluna === coluna) {
+                ordemAtual.direcao = ordemAtual.direcao === 'asc' ? 'desc' : 'asc';
+            } else {
+                ordemAtual.coluna = coluna;
+                ordemAtual.direcao = 'asc';
+            }
+
+            produtos.sort((a, b) => {
+                let valorA = a[coluna];
+                let valorB = b[coluna];
+                
+                if (typeof valorA === 'string') {
+                    valorA = valorA.toLowerCase();
+                    valorB = valorB.toLowerCase();
+                }
+
+                return ordemAtual.direcao === 'asc' ? (valorA > valorB ? 1 : -1) : (valorA < valorB ? 1 : -1);
+            });
+
+            renderizarTabela();
+        }
+
+        async function carregarCategorias() {
+            try {
+                const response = await fetch(`${API_URL}/categorias.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    categorias = result.data || [];
+                    
+                    const select = document.getElementById('categoria');
+                    select.innerHTML = '<option value="">Selecione...</option>';
+                    categorias.forEach(cat => {
+                        const option = document.createElement('option');
+                        option.value = cat.nome;
+                        option.textContent = cat.nome;
+                        select.appendChild(option);
+                    });
+
+                    const tabelaCategorias = document.getElementById('tabelaCategorias');
+                    if (tabelaCategorias) {
+                        tabelaCategorias.innerHTML = '';
+                        categorias.forEach(cat => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${cat.nome}</td>
+                                <td>
+                                    <button class="btn" onclick="removerCategoria('${cat.nome}')" style="padding: 0.5rem; background: #dc2626;">
+                                        <span class="material-icons" style="font-size: 1rem;">delete</span>
+                                    </button>
+                                </td>
+                            `;
+                            tabelaCategorias.appendChild(tr);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar categorias:', error);
+            }
+        }
+
+        async function adicionarCategoria() {
+            const novaCategoria = document.getElementById('novaCategoria').value.trim();
+            if (!novaCategoria) {
+                mostrarErro('Digite o nome da categoria');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/categorias.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ nome: novaCategoria })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('novaCategoria').value = '';
+                    carregarCategorias();
+                    mostrarSucesso('Categoria adicionada!');
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                mostrarErro('Erro ao conectar');
+            }
+        }
+
+        async function removerCategoria(nome) {
+            try {
+                const response = await fetch(`${API_URL}/categorias.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ nome })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    carregarCategorias();
+                    mostrarSucesso('Categoria removida!');
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                mostrarErro('Erro ao conectar');
+            }
+        }
+
+        function abrirModalCadastro() {
+            carregarCategorias();
+            document.getElementById('tituloModal').textContent = 'Cadastrar Produto';
+            document.getElementById('formProduto').reset();
+            document.getElementById('produtoId').value = '';
+            document.getElementById('btnRemover').style.display = 'none';
+            document.getElementById('modalProduto').style.display = 'block';
+        }
+
+        function editarProduto(id) {
+            console.log('Editando produto ID:', id);
+            carregarCategorias();
+            
+            const produto = produtos.find(p => p.id === id);
+            if (!produto) {
+                console.error('Produto não encontrado');
+                return;
+            }
+            
+            console.log('Dados do produto:', produto);
+
+            document.getElementById('tituloModal').textContent = 'Editar Produto';
+            document.getElementById('produtoId').value = produto.id;
+            document.getElementById('nome').value = produto.nome;
+            document.getElementById('fornecedor').value = produto.fornecedor || '';
+            document.getElementById('codigoBarra').value = produto.codigo_de_barra || '';
+            document.getElementById('valorCompra').value = produto.valor_compra || '';
+            document.getElementById('valorVenda').value = produto.valor_de_venda;
+            document.getElementById('quantidade').value = produto.quantidade_em_estoque;
+            document.getElementById('ncm').value = produto.NCM || '';
+            document.getElementById('quilo').checked = produto.por_quilo;
+            
+            setTimeout(() => {
+                document.getElementById('categoria').value = produto.categoria || '';
+            }, 100);
+            
+            document.getElementById('btnRemover').style.display = 'block';
+            document.getElementById('modalProduto').style.display = 'block';
+        }
+
+        async function removerProduto() {
+            const id = document.getElementById('produtoId').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ id: parseInt(id) })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    fecharModal('modalRemoverProduto');
+                    fecharModal('modalProduto');
+                    mostrarSucesso('Produto removido!');
+                    carregarProdutos();
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                mostrarErro('Erro ao conectar');
+            }
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function abrirModal(id) {
+            if (id === 'modalCategorias') {
+                carregarCategorias();
+            }
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function mostrarErro(mensagem) {
+            document.getElementById('mensagemErro').textContent = mensagem;
+            document.getElementById('modalErro').style.display = 'block';
+        }
+
+        function mostrarSucesso(mensagem) {
+            document.getElementById('tituloSucesso').textContent = mensagem;
+            document.getElementById('modalSucesso').style.display = 'block';
+        }
+
+        document.getElementById('formProduto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('produtoId').value;
+            const produto = {
+                nome: document.getElementById('nome').value,
+                fornecedor: document.getElementById('fornecedor').value,
+                codigo_de_barra: document.getElementById('codigoBarra').value,
+                valor_compra: parseFloat(document.getElementById('valorCompra').value),
+                valor_de_venda: parseFloat(document.getElementById('valorVenda').value),
+                quantidade_em_estoque: parseInt(document.getElementById('quantidade').value),
+                categoria: document.getElementById('categoria').value,
+                NCM: document.getElementById('ncm').value,
+                por_quilo: document.getElementById('quilo').checked
+            };
+
+            console.log(id ? 'Atualizando produto' : 'Criando produto', produto);
+
+            try {
+                let response;
+                if (id) {
+                    produto.id = parseInt(id);
+                    response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(produto)
+                    });
+                } else {
+                    response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(produto)
+                    });
+                }
+                
+                const result = await response.json();
+                console.log('Resposta:', result);
+                
+                if (result.success) {
+                    fecharModal('modalProduto');
+                    if (!id && result.data && result.data.codigo_de_barra) {
+                        mostrarSucesso(`Produto cadastrado! Código: ${result.data.codigo_de_barra}`);
+                    } else {
+                        mostrarSucesso(id ? 'Produto atualizado!' : 'Produto cadastrado!');
+                    }
+                    carregarProdutos();
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao conectar');
+            }
+        });
+
+        // Inicializar
+        carregarProdutos();
+        carregarCategorias();
+    </script>
+</body>
+</html>

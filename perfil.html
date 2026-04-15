@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - Perfil</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="fundo"></div>
+    
+    <div class="mobile-menu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="http://localhost/anglivery/interface_principal.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/pdv.html">
+                <span class="material-icons">point_of_sale</span> PDV
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/cliente.html">
+                <span class="material-icons">people</span> Clientes
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/funcionario.html">
+                <span class="material-icons">badge</span> Funcionários
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/inventario.html">
+                <span class="material-icons">inventory</span> Inventário
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/vendas.html">
+                <span class="material-icons">shopping_cart</span> Vendas
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/leitor.html">
+                <span class="material-icons">qr_code_scanner</span> Leitor
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/perfil.html">
+                <span class="material-icons">account_circle</span> Perfil
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">logout</span> Sair
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main>
+            <section class="section">
+                <div class="perfil-container">
+                    <h1 class="section__title">Meu Perfil</h1>
+                    
+                    <!-- Card de Informações -->
+                    <div class="perfil-card">
+                        <h2>Informações da Conta</h2>
+                        
+                        <form id="formPerfil">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label>Nome*</label>
+                                    <input type="text" id="nome" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>Email*</label>
+                                    <input type="email" id="email" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>Data de Cadastro</label>
+                                    <input type="text" id="dataCadastro" disabled class="form-input-disabled">
+                                </div>
+                            </div>
+
+                            <div class="perfil-button-group">
+                                <button type="submit" class="btn">
+                                    <span class="material-icons">save</span> Salvar Alterações
+                                </button>
+                                <a href="http://localhost/anglivery/interface_principal.html" class="btn">
+                                    <span class="material-icons">arrow_back</span> Voltar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Card de Senha -->
+                    <div class="perfil-card">
+                        <h2>Alterar Senha</h2>
+                        
+                        <form id="formSenha">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label>Senha Atual*</label>
+                                    <div class="input-group">
+                                        <span class="input-icon">
+                                            <span class="material-icons">lock</span>
+                                        </span>
+                                        <input class="form-input" type="password" id="senhaAtual" required>
+                                        <button type="button" class="toggle-password" onclick="togglePassword('senhaAtual', this)">
+                                            <span class="material-icons">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Nova Senha*</label>
+                                    <div class="input-group">
+                                        <span class="input-icon">
+                                            <span class="material-icons">lock_outline</span>
+                                        </span>
+                                        <input class="form-input" type="password" id="senhaNova" required minlength="6">
+                                        <button type="button" class="toggle-password" onclick="togglePassword('senhaNova', this)">
+                                            <span class="material-icons">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength-wrapper">
+                                        <div class="password-strength-progress">
+                                            <div class="password-strength-indicator"></div>
+                                        </div>
+                                        <div class="password-strength-label"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Confirmar Nova Senha*</label>
+                                    <div class="input-group">
+                                        <span class="input-icon">
+                                            <span class="material-icons">lock_outline</span>
+                                        </span>
+                                        <input class="form-input" type="password" id="senhaConfirmar" required minlength="6">
+                                        <button type="button" class="toggle-password" onclick="togglePassword('senhaConfirmar', this)">
+                                            <span class="material-icons">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div id="password-match-message" class="password-match-indicator"></div>
+                                </div>
+                            </div>
+
+                            <div class="perfil-button-group">
+                                <button type="submit" class="btn">
+                                    <span class="material-icons">key</span> Alterar Senha
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Card de Zona de Perigo -->
+                    <div class="perfil-card-danger">
+                        <h2>
+                            <span class="material-icons">warning</span> Zona de Perigo
+                        </h2>
+                        
+                        <p>
+                            Ao deletar sua conta, todos os seus dados serão permanentemente removidos, incluindo:
+                        </p>
+                        
+                        <ul>
+                            <li>Todos os produtos cadastrados</li>
+                            <li>Histórico de vendas</li>
+                            <li>Clientes e funcionários</li>
+                            <li>Todas as configurações e logs</li>
+                        </ul>
+
+                        <p class="perfil-warning-text">
+                            Esta ação não pode ser desfeita!
+                        </p>
+
+                        <button class="btn btn-danger" onclick="abrirModal('modalDeletarConta')">
+                            <span class="material-icons">delete_forever</span> Deletar Conta
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container2">
+                <p>© 2024 Anglivery. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal Deletar Conta -->
+    <div id="modalDeletarConta" class="modal">
+        <div class="modal-content perfil-modal-content">
+            <div class="perfil-modal-icon-danger">
+                <span class="material-icons">warning</span>
+            </div>
+            <h2 class="perfil-modal-title-danger">Deletar Conta</h2>
+            <p class="perfil-modal-text">
+                Tem certeza que deseja deletar sua conta?<br>
+                <strong>Esta ação é irreversível!</strong>
+            </p>
+            
+            <form id="formDeletar">
+                <div class="form-group">
+                    <label>Digite sua senha para confirmar</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <span class="material-icons">lock</span>
+                        </span>
+                        <input class="form-input" type="password" id="senhaConfirmacaoDeletar" required>
+                    </div>
+                </div>
+                
+                <div class="perfil-modal-buttons">
+                    <button type="submit" class="btn btn-danger">Sim, Deletar</button>
+                    <button type="button" class="btn btn-cancel" onclick="fecharModal('modalDeletarConta')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modais de Aviso -->
+    <div id="modalSucesso" class="modal">
+        <div class="modal-content">
+            <div class="perfil-modal-icon-success">
+                <span class="material-icons">check_circle</span>
+            </div>
+            <h2 class="perfil-modal-title-success" id="tituloSucesso">Sucesso</h2>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalSucesso')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalErro" class="modal">
+        <div class="modal-content">
+            <div class="perfil-modal-icon-warning">
+                <span class="material-icons">error</span>
+            </div>
+            <h2 class="perfil-modal-title-warning">Erro</h2>
+            <div class="form-group">
+                <label id="mensagemErro"></label>
+            </div>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalErro')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="perfil-modal-icon-success">
+                <span class="material-icons">check_circle</span>
+            </div>
+            <h2 class="perfil-modal-title-success">Conta deletada com sucesso!</h2>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso1')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+        
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || !usuarioLogado.id) {
+                window.location.href = 'login.html';
+            }
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+        
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        });
+
+        // Logout ao clicar em Sair
+        document.querySelectorAll('a[href*="login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        // Carregar dados do perfil
+        async function carregarPerfil() {
+            try {
+                const response = await fetch(`${API_URL}/perfil.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('nome').value = result.data.nome;
+                    document.getElementById('email').value = result.data.email;
+                    document.getElementById('dataCadastro').value = result.data.data_cadastro;
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao carregar perfil');
+            }
+        }
+
+        // Atualizar perfil
+        document.getElementById('formPerfil').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const btnTextOriginal = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="material-icons">hourglass_empty</span> Salvando...';
+            
+            try {
+                const response = await fetch(`${API_URL}/perfil.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ nome, email })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Atualizar localStorage
+                    usuarioLogado.nome = nome;
+                    usuarioLogado.email = email;
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                    
+                    mostrarSucesso('Perfil atualizado com sucesso!');
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao atualizar perfil');
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = btnTextOriginal;
+            }
+        });
+
+        // Alterar senha
+        document.getElementById('formSenha').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const senhaAtual = document.getElementById('senhaAtual').value;
+            const senhaNova = document.getElementById('senhaNova').value;
+            const senhaConfirmar = document.getElementById('senhaConfirmar').value;
+            
+            if (senhaNova !== senhaConfirmar) {
+                mostrarErro('As senhas não coincidem');
+                return;
+            }
+            
+            if (senhaNova.length < 6) {
+                mostrarErro('A nova senha deve ter pelo menos 6 caracteres');
+                return;
+            }
+            
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const btnTextOriginal = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="material-icons">hourglass_empty</span> Alterando...';
+            
+            try {
+                const response = await fetch(`${API_URL}/perfil.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ senha_atual: senhaAtual, senha_nova: senhaNova })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    mostrarSucesso('Senha alterada com sucesso!');
+                    document.getElementById('formSenha').reset();
+                    document.querySelector('.password-strength-wrapper').style.display = 'none';
+                } else {
+                    mostrarErro(result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao alterar senha');
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = btnTextOriginal;
+            }
+        });
+
+        // Deletar conta
+        document.getElementById('formDeletar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const senha = document.getElementById('senhaConfirmacaoDeletar').value;
+            
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const btnTextOriginal = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="material-icons">hourglass_empty</span> Deletando...';
+            
+            try {
+                const response = await fetch(`${API_URL}/perfil.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ senha })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Limpar localStorage
+                    localStorage.removeItem('usuarioLogado');
+                    localStorage.removeItem('lembrarEmail');
+                    
+                    // Redirecionar
+                    document.getElementById('modalAviso1').style.display = 'block';
+                    window.location.href = 'login.html';
+                } else {
+                    mostrarErro(result.message);
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = btnTextOriginal;
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao deletar conta');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = btnTextOriginal;
+            }
+        });
+
+        // Validação em tempo real da confirmação de senha
+        document.getElementById('senhaConfirmar').addEventListener('input', (e) => {
+            const senha = document.getElementById('senhaNova').value;
+            const senhaConfirmacao = e.target.value;
+            const message = document.getElementById('password-match-message');
+
+            if (senhaConfirmacao && senha !== senhaConfirmacao) {
+                message.textContent = '✗ As senhas não coincidem';
+                message.className = 'password-match-indicator password-match-error';
+            } else if (senhaConfirmacao && senha === senhaConfirmacao) {
+                message.textContent = '✓ As senhas coincidem';
+                message.className = 'password-match-indicator password-match-success';
+            } else {
+                message.textContent = '';
+                message.className = 'password-match-indicator';
+            }
+        });
+
+        // Validação de força da senha
+        document.getElementById('senhaNova').addEventListener('input', (e) => {
+            const senha = e.target.value;
+            const strengthContainer = document.querySelector('.password-strength-wrapper');
+            const strengthFill = document.querySelector('.password-strength-indicator');
+            const strengthText = document.querySelector('.password-strength-label');
+            
+            if (senha.length > 0) {
+                strengthContainer.style.display = 'block';
+            } else {
+                strengthContainer.style.display = 'none';
+                return;
+            }
+            
+            let score = 0;
+            let width = 0;
+            let color = '#dc2626';
+            let text = 'Fraca';
+            
+            if (senha.length >= 6) score += 1;
+            if (senha.length >= 8) score += 1;
+            if (/[a-z]/.test(senha) && /[A-Z]/.test(senha)) score += 1;
+            if (/[0-9]/.test(senha)) score += 1;
+            if (/[^A-Za-z0-9]/.test(senha)) score += 1;
+            
+            if (score === 0) {
+                width = 0;
+                color = '#dc2626';
+                text = 'Muito fraca';
+            } else if (score === 1) {
+                width = 25;
+                color = '#dc2626';
+                text = 'Fraca';
+            } else if (score === 2) {
+                width = 45;
+                color = '#f97316';
+                text = 'Razoável';
+            } else if (score === 3) {
+                width = 65;
+                color = '#f59e0b';
+                text = 'Boa';
+            } else if (score === 4) {
+                width = 85;
+                color = '#22c55e';
+                text = 'Forte';
+            } else if (score === 5) {
+                width = 100;
+                color = '#16a34a';
+                text = 'Excelente';
+            }
+            
+            strengthFill.style.width = `${width}%`;
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = text;
+            strengthText.style.color = color;
+        });
+
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('.material-icons');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function abrirModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+            if (id === 'modalDeletarConta') {
+                document.getElementById('formDeletar').reset();
+            }
+        }
+
+        function mostrarErro(mensagem) {
+            document.getElementById('mensagemErro').textContent = mensagem;
+            document.getElementById('modalErro').style.display = 'block';
+        }
+
+        function mostrarSucesso(mensagem) {
+            document.getElementById('tituloSucesso').textContent = mensagem;
+            document.getElementById('modalSucesso').style.display = 'block';
+        }
+
+        // Carregar perfil ao iniciar
+        carregarPerfil();
+    </script>
+</body>
+</html>

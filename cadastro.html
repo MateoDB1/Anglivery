@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Anglivery - Cadastro</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="container2 container--centralizado">
+        <div class="logo"></div>
+        <h1 class="title">Cadastre-se</h1>
+        
+        <form id="formCadastro">
+            <div class="form-group">
+                <label class="form-label" for="nome">Nome Completo</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">person</span>
+                    </span>
+                    <input class="form-input" id="nome" name="nome" placeholder="Seu nome completo" type="text" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">email</span>
+                    </span>
+                    <input class="form-input" id="email" name="email" placeholder="seu@email.com" type="email" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="senha">Senha</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">lock</span>
+                    </span>
+                    <input class="form-input" id="senha" name="senha" placeholder="Mínimo 6 caracteres" type="password" required minlength="6" />
+                    <button type="button" class="toggle-password" onclick="togglePassword('senha', this)">
+                        <span class="material-icons">visibility</span>
+                    </button>
+                </div>
+                <div class="password-strength-container" style="margin-top: 0.5rem; display: none;">
+                    <div class="password-strength-bar" style="width: 100%; height: 6px; background-color: #e5e7eb; border-radius: 3px; overflow: hidden;">
+                        <div class="password-strength-fill" style="height: 100%; width: 0%; border-radius: 3px; transition: width 0.3s ease, background-color 0.3s ease;"></div>
+                    </div>
+                    <div class="password-strength-text" style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; text-align: left;"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="senhaConfirmacao">Confirmar Senha</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">lock_outline</span>
+                    </span>
+                    <input class="form-input" id="senhaConfirmacao" name="senhaConfirmacao" placeholder="Digite a senha novamente" type="password" required minlength="6" />
+                    <button type="button" class="toggle-password" onclick="togglePassword('senhaConfirmacao', this)">
+                        <span class="material-icons">visibility</span>
+                    </button>
+                </div>
+                <div id="password-match-message" style="font-size: 0.75rem; margin-top: 0.25rem; text-align: left; color: #dc2626;"></div>
+            </div>
+
+            <button class="btn btn--full" type="submit">
+                Cadastrar
+            </button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 1.5rem; color: #6b7280;">
+            Já tem uma conta? <a href="http://localhost/anglivery/login.html" class="link">Fazer login</a>
+        </p>
+    </div>
+
+    <!-- Modais -->
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Campos Obrigatórios</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Por favor, preencha todos os campos para prosseguir.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso1')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso2" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">warning</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Senha Inválida</h2>
+            <div class="form-group">
+                <label style="text-align: center;">A senha deve ter no mínimo 6 caracteres.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso2')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso3" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">warning</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Senhas Diferentes</h2>
+            <div class="form-group">
+                <label style="text-align: center;">As senhas devem ser iguais.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso3')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso4" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Erro ao Cadastrar</h2>
+            <div class="form-group">
+                <label style="text-align: center;" id="mensagemErro">Ocorreu um erro ao tentar realizar o cadastro.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso4')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso5" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Erro de Conexão</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Erro ao conectar-se com o servidor.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso5')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso6" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #34B08C;">check_circle</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #34B08C;">Cadastro realizado com sucesso!</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Retornando para a tela de login.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso6')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+    
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value;
+            const senhaConfirmacao = document.getElementById('senhaConfirmacao').value;
+
+            // Validações
+            if (!nome || !email || !senha || !senhaConfirmacao) {
+                document.getElementById('modalAviso1').style.display = 'block';
+                return;
+            }
+
+            if (senha.length < 6) {
+                document.getElementById('modalAviso2').style.display = 'block';
+                return;
+            }
+
+            if (senha !== senhaConfirmacao) {
+                document.getElementById('modalAviso3').style.display = 'block';
+                document.getElementById('senhaConfirmacao').value = '';
+                document.getElementById('senhaConfirmacao').focus();
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const btnTextOriginal = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="material-icons">hourglass_empty</span> Cadastrando...';
+
+            try {
+                const response = await fetch(`${API_URL}/cadastro.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nome: nome,
+                        email: email,
+                        senha: senha
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Mostrar mensagem de sucesso
+                    document.getElementById('modalAviso6').style.display = 'block';
+                    document.getElementById('formCadastro').reset();
+
+                    // Redirecionar para login após 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    document.getElementById('mensagemErro').textContent = result.message || 'Erro desconhecido';
+                    document.getElementById('modalAviso4').style.display = 'block';
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = btnTextOriginal;
+                }
+
+            } catch (error) {
+                console.error('Erro ao cadastrar:', error);
+                document.getElementById('modalAviso5').style.display = 'block';
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = btnTextOriginal;
+            }
+        });
+
+        // Validação em tempo real da confirmação de senha
+        document.getElementById('senhaConfirmacao').addEventListener('input', (e) => {
+            const senha = document.getElementById('senha').value;
+            const senhaConfirmacao = e.target.value;
+            const message = document.getElementById('password-match-message');
+
+            if (senhaConfirmacao && senha !== senhaConfirmacao) {
+                message.textContent = '✗ As senhas não coincidem';
+                message.style.color = '#dc2626';
+            } else if (senhaConfirmacao && senha === senhaConfirmacao) {
+                message.textContent = '✓ As senhas coincidem';
+                message.style.color = '#34B08C';
+            } else {
+                message.textContent = '';
+            }
+        });
+
+        // Validação de força da senha
+        document.getElementById('senha').addEventListener('input', (e) => {
+            const senha = e.target.value;
+            const strengthContainer = document.querySelector('.password-strength-container');
+            const strengthFill = document.querySelector('.password-strength-fill');
+            const strengthText = document.querySelector('.password-strength-text');
+            
+            if (senha.length > 0) {
+                strengthContainer.style.display = 'block';
+            } else {
+                strengthContainer.style.display = 'none';
+                return;
+            }
+            
+            let score = 0;
+            let width = 0;
+            let color = '#dc2626';
+            let text = 'Fraca';
+            
+            if (senha.length >= 6) score += 1;
+            if (senha.length >= 8) score += 1;
+            if (/[a-z]/.test(senha) && /[A-Z]/.test(senha)) score += 1;
+            if (/[0-9]/.test(senha)) score += 1;
+            if (/[^A-Za-z0-9]/.test(senha)) score += 1;
+            
+            if (score === 0) {
+                width = 0;
+                color = '#dc2626';
+                text = 'Muito fraca';
+            } else if (score === 1) {
+                width = 25;
+                color = '#dc2626';
+                text = 'Fraca';
+            } else if (score === 2) {
+                width = 45;
+                color = '#f97316';
+                text = 'Razoável';
+            } else if (score === 3) {
+                width = 65;
+                color = '#f59e0b';
+                text = 'Boa';
+            } else if (score === 4) {
+                width = 85;
+                color = '#22c55e';
+                text = 'Forte';
+            } else if (score === 5) {
+                width = 100;
+                color = '#16a34a';
+                text = 'Excelente';
+            }
+            
+            strengthFill.style.width = `${width}%`;
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = text;
+            strengthText.style.color = color;
+        });
+
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('.material-icons');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</body>
+</html>

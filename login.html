@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Anglivery Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="container2 container--centralizado">
+        <div class="logo"></div>
+        <h1 class="title">Login</h1>
+        <form id="formLogin">
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">email</span>
+                    </span>
+                    <input class="form-input" id="email" name="email" placeholder="seu@email.com" type="email" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="senha">Senha</label>
+                <div class="input-group">
+                    <span class="input-icon">
+                        <span class="material-icons">lock</span>
+                    </span>
+                    <input class="form-input" id="senha" name="senha" placeholder="••••••••" type="password" required />
+                    <button type="button" class="toggle-password" onclick="togglePassword('senha', this)">
+                        <span class="material-icons">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-options">
+                <div class="checkbox-group">
+                    <input class="checkbox" id="lembrar" name="lembrar" type="checkbox" />
+                    <label class="checkbox-label" for="lembrar">Lembrar de mim</label>
+                </div>
+                <a class="link" href="#" id="linkEsqueceuSenha">Esqueceu sua senha?</a>
+            </div>
+            <button class="btn btn--full" type="submit">
+                Entrar
+            </button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 1.5rem; color: #6b7280;">
+            Não tem uma conta? <a href="http://localhost/anglivery/cadastro.html" class="link">Cadastre-se</a>
+        </p>
+    </div>
+
+    <!-- Modal Esqueceu Senha -->
+    <div id="modalEsqueceuSenha" class="modal">
+        <div class="modal-content">
+            <h2>Recuperar Senha</h2>
+            <form id="formRecuperarSenha">
+                <div class="form-group">
+                    <label class="form-label">Email cadastrado</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <span class="material-icons">email</span>
+                        </span>
+                        <input type="email" id="emailRecuperacao" class="form-input" required placeholder="seu@email.com">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn" style="flex: 1;">Enviar</button>
+                    <button type="button" class="btn" onclick="fecharModalRecuperacao()" style="flex: 1; background: #6b7280;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modais de Aviso -->
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Campos Obrigatórios</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Por favor, preencha todos os campos para prosseguir.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso1')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso2" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Login Inválido</h2>
+            <div class="form-group">
+                <label style="text-align: center;">O e-mail ou a senha estão incorretos.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso2')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso3" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Erro de Conexão</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Erro ao conectar com o servidor. Tente novamente.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso3')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso4" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #34B08C;">check_circle</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #34B08C;">E-mail enviado</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Se este e-mail estiver cadastrado, você receberá instruções para recuperar sua senha.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso4')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+
+        // Verificar se já está logado
+        window.addEventListener('DOMContentLoaded', () => {
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            if (usuarioLogado) {
+                window.location.href = 'interface_principal.html';
+            }
+
+            // Verificar se deve lembrar
+            const lembrarEmail = localStorage.getItem('lembrarEmail');
+            if (lembrarEmail) {
+                document.getElementById('email').value = lembrarEmail;
+                document.getElementById('lembrar').checked = true;
+            }
+        });
+
+        // Login
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value;
+            const lembrar = document.getElementById('lembrar').checked;
+
+            if (!email || !senha) {
+                document.getElementById('modalAviso1').style.display = 'block';
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const btnTextOriginal = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="material-icons">hourglass_empty</span> Entrando...';
+
+            try {
+                const response = await fetch(`${API_URL}/login.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Salvar dados do usuário no localStorage
+                    localStorage.setItem('usuarioLogado', JSON.stringify({
+                        id: result.data.id,
+                        nome: result.data.nome,
+                        email: result.data.email
+                    }));
+
+                    // Lembrar email se marcado
+                    if (lembrar) {
+                        localStorage.setItem('lembrarEmail', email);
+                    } else {
+                        localStorage.removeItem('lembrarEmail');
+                    }
+
+                    // Redirecionar
+                    window.location.href = 'interface_principal.html';
+                } else {
+                    document.getElementById('modalAviso2').style.display = 'block';
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = btnTextOriginal;
+                    document.getElementById('senha').value = '';
+                    document.getElementById('senha').focus();
+                }
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                document.getElementById('modalAviso3').style.display = 'block';
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = btnTextOriginal;
+            }
+        });
+
+        // Esqueceu senha
+        document.getElementById('linkEsqueceuSenha').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('modalEsqueceuSenha').style.display = 'block';
+        });
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function fecharModalRecuperacao() {
+            document.getElementById('modalEsqueceuSenha').style.display = 'none';
+            document.getElementById('emailRecuperacao').value = '';
+        }
+
+        document.getElementById('formRecuperarSenha').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailRecuperacao').value;
+
+            // TODO: Implementar recuperação de senha na API quando estiver pronto
+            document.getElementById('modalAviso4').style.display = 'block';
+            fecharModalRecuperacao();
+        });
+
+        // Toggle de visibilidade da senha
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('.material-icons');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalEsqueceuSenha');
+            if (event.target == modal) {
+                fecharModalRecuperacao();
+            }
+        }
+    </script>
+</body>
+</html>

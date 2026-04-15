@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - Leitor de Código</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="http://localhost/anglivery/interface_principal.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/pdv.html">
+                <span class="material-icons">point_of_sale</span> PDV
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/cliente.html">
+                <span class="material-icons">people</span> Clientes
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/funcionario.html">
+                <span class="material-icons">badge</span> Funcionários
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/inventario.html">
+                <span class="material-icons">inventory</span> Inventário
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/vendas.html">
+                <span class="material-icons">shopping_cart</span> Vendas
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/leitor.html">
+                <span class="material-icons">qr_code_scanner</span> Leitor
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/perfil.html">
+                <span class="material-icons">account_circle</span> Perfil
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">logout</span> Sair
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main>
+            <div class="leitor-container">                
+                <div class="leitor-card" id="leitorCard">
+                    <button class="modo-leitor-btn" onclick="toggleModoLeitor(),fecharBusca()" title="Ativar Modo Leitor" id="btnModoLeitor">
+                        <span class="material-icons" id="iconeModo">fullscreen</span>
+                    </button>
+
+                    <div id="inputArea">
+                        <div class="qr-code-container">
+                            <div class="qr-code-box">
+                                <img src="http://localhost/anglivery/img/Codigo_de_barra1.png" alt="Codigo_de_barras" height="80" width="100">
+                            </div>
+                            <h1 class="section__title" style="text-align: center; margin-bottom: 2rem;" id="tituloLeitor">Leitor de Código de Barras</h1>
+                        </div>
+
+                        <p style="text-align: center; margin-bottom: 2rem; color: #6b7280; font-size: 1.1rem;">
+                            Digite ou escaneie o código de barras do produto
+                        </p>
+
+                        <input 
+                            type="text" 
+                            id="codigoInput" 
+                            class="codigo-input" 
+                            placeholder="Digite o código..."
+                            maxlength="13"
+                            autofocus
+                        >
+
+                        <div class="button-group">
+                            <button class="btn" onclick="buscarProduto()">
+                                <span class="material-icons">search</span> Buscar
+                            </button>
+                            <button class="btn" onclick="limparCampo()" style="background: #6b7280;">
+                                <span class="material-icons">clear</span> Limpar
+                            </button>
+                            <a href="http://localhost/anglivery/interface_principal.html" class="btn">
+                                <span class="material-icons">arrow_back</span> Voltar
+                            </a>
+                        </div>
+
+                        <!-- Display normal (não modo leitor) -->
+                        <div class="produto-display-normal" id="produtoDisplayNormal">
+                            <button class="btn-fechar" onclick="fecharBusca()">
+                                <span class="material-icons">close</span>
+                            </button>
+                            <h2 id="produtoNomeNormal" style="margin-bottom: 1.5rem; color: #F59E0B;"></h2>
+                            <div id="produtoInfoNormal"></div>
+                        </div>
+                    </div>
+
+                    <!-- Display modo leitor -->
+                    <div class="produto-display" id="produtoDisplay">
+                        <h2 id="produtoNome" style="margin-bottom: 2rem; text-align: center; font-size: 2.5rem;"></h2>
+                        <div id="produtoInfo"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Codígo de barras inválido</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Por favor, digite um código de barras válido.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso1')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso2" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Produto não encontrado</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Verifique se o código está correto.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso2')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso3" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container" style="margin: 0 auto ; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons" style="font-size: 4rem; color: #F59E0B;">error</span>
+            </div>
+            <h2 style="margin-bottom: 1.5rem; color: #F59E0B;">Ocorreu um erro</h2>
+            <div class="form-group">
+                <label style="text-align: center;">Houve um erro ao buscar o produto no banco de dados.</label>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" onclick="fecharModal('modalAviso3')" style="flex: 1; background: #34B08C;">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const API_URL = 'http://localhost/anglivery/api';
+
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado) window.location.href = 'login.html';
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        let modoLeitorAtivo = false;
+        let timeoutProduto = null;
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        });
+
+        // Logout ao clicar em Sair
+        document.querySelectorAll('a[href$="login.html"], a[href*="/login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        document.getElementById('codigoInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') buscarProduto();
+        });
+
+        async function buscarProduto() {
+            const codigo = document.getElementById('codigoInput').value.trim();
+            if (!codigo) {
+                document.getElementById('modalAviso1').style.display = 'block';
+                return;
+            }
+
+            try {
+                // Usar produtos.php com parâmetro codigo
+                const response = await fetch(`${API_URL}/produtos.php?usuario_id=${usuarioLogado.id}&codigo=${codigo}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    mostrarProduto(result.data);
+                } else {
+                    document.getElementById('modalAviso2').style.display = 'block';
+                    limparCampo();
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('modalAviso3').style.display = 'block';
+            }
+        }
+
+        function mostrarProduto(produto) {
+            if (modoLeitorAtivo) {
+                const inputArea = document.getElementById('inputArea');
+                const produtoDisplay = document.getElementById('produtoDisplay');
+                const produtoNome = document.getElementById('produtoNome');
+                const produtoInfo = document.getElementById('produtoInfo');
+
+                produtoNome.textContent = produto.nome;
+                produtoInfo.innerHTML = `
+                    <div class="info-row">
+                        <span class="info-label">Preço:</span>
+                        <span class="info-value">R$ ${parseFloat(produto.valor_de_venda).toFixed(2)}</span>
+                    </div>
+                `;
+
+                inputArea.style.display = 'none';
+                produtoDisplay.classList.add('active');
+
+                if (timeoutProduto) clearTimeout(timeoutProduto);
+                timeoutProduto = setTimeout(() => {
+                    produtoDisplay.classList.remove('active');
+                    inputArea.style.display = 'block';
+                    limparCampo();
+                }, 1150);
+            } else {
+                const produtoDisplayNormal = document.getElementById('produtoDisplayNormal');
+                const produtoNomeNormal = document.getElementById('produtoNomeNormal');
+                const produtoInfoNormal = document.getElementById('produtoInfoNormal');
+
+                produtoNomeNormal.textContent = produto.nome;
+                produtoInfoNormal.innerHTML = `
+                    <div class="info-row"><span class="info-label">Código:</span><span class="info-value">${produto.codigo_de_barra || '-'}</span></div>
+                    <div class="info-row"><span class="info-label">Fornecedor:</span><span class="info-value">${produto.fornecedor || '-'}</span></div>
+                    <div class="info-row"><span class="info-label">Valor:</span><span class="info-value">R$ ${parseFloat(produto.valor_de_venda).toFixed(2)}</span></div>
+                    <div class="info-row"><span class="info-label">Estoque:</span><span class="info-value">${produto.quantidade_em_estoque} unidades</span></div>
+                    <div class="info-row"><span class="info-label">Categoria:</span><span class="info-value">${produto.categoria || '-'}</span></div>
+                `;
+                produtoDisplayNormal.classList.add('active');
+            }
+        }
+
+        function toggleModoLeitor() {
+            modoLeitorAtivo = !modoLeitorAtivo;
+            const mainContent = document.getElementById('content');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const btnModoLeitor = document.getElementById('btnModoLeitor');
+            const iconeModo = document.getElementById('iconeModo');
+
+            if (modoLeitorAtivo) {
+                sidebar.style.display = 'none';
+                mobileMenu.style.display = 'none';
+                btnModoLeitor.style.display = 'none';
+                mainContent.style.marginLeft = '0';
+                iconeModo.textContent = 'fullscreen_exit';
+                document.querySelector('.button-group .btn:last-child').style.display = 'none';
+                document.getElementById('codigoInput').focus();
+            } else {
+                sidebar.style.display = 'flex';
+                mobileMenu.style.display = 'block';
+                btnModoLeitor.style.display = 'flex';
+                iconeModo.textContent = 'fullscreen';
+                document.querySelector('.button-group .btn:last-child').style.display = 'inline-flex';
+            }
+        }
+
+        function fecharBusca() {
+            document.getElementById('produtoDisplayNormal').classList.remove('active');
+            limparCampo();
+        }
+
+        function limparCampo() {
+            document.getElementById('codigoInput').value = '';
+            document.getElementById('codigoInput').focus();
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        document.getElementById('codigoInput').focus();
+    </script>
+</body>
+</html>

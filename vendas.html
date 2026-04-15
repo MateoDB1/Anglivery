@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anglivery - Vendas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body vendas-layout">
+    <div class="fundo"></div>
+    
+    <div class="mobile-menu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="interface_principal.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/pdv.html">
+                <span class="material-icons">point_of_sale</span> PDV
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/cliente.html">
+                <span class="material-icons">people</span> Clientes
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/funcionario.html">
+                <span class="material-icons">badge</span> Funcionários
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/inventario.html">
+                <span class="material-icons">inventory</span> Inventário
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/vendas.html">
+                <span class="material-icons">shopping_cart</span> Vendas
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/leitor.html">
+                <span class="material-icons">qr_code_scanner</span> Leitor
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/perfil.html">
+                <span class="material-icons">account_circle</span> Perfil
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">logout</span> Sair
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main class="vendas-main">
+            <section class="vendas-section">
+                <div class="vendas-wrapper">
+                    <h1 class="section__title">Histórico de Vendas</h1>
+                    
+                    <div class="vendas-card">
+                        <!-- Filtros -->
+                        <div class="vendas-filtros">
+                            <h3>Filtros</h3>
+                            <div class="filtro-grid">
+                                <div class="form-group">
+                                    <label>Data Inicial</label>
+                                    <input type="date" id="dataInicial">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data Final</label>
+                                    <input type="date" id="dataFinal">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <select id="filtroCliente">
+                                        <option value="">Todos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Funcionário</label>
+                                    <select id="filtroFuncionario">
+                                        <option value="">Todos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn" onclick="filtrarVendas()">
+                                        <span class="material-icons">filter_list</span> Aplicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Container principal com tabela -->
+                        <div class="vendas-table-content">
+                            <!-- Tabela com scroll -->
+                            <div class="vendas-table-wrapper">
+                                <div class="vendas-scroll-hint">
+                                    <span class="material-icons">swap_horiz</span>
+                                    Deslize para ver mais colunas
+                                </div>
+                                <table class="vendas-table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th onclick="ordenarTabela('data')" style="min-width: 150px;">
+                                                Data <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th onclick="ordenarTabela('cliente')" style="min-width: 180px;">
+                                                Cliente <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th onclick="ordenarTabela('funcionario')" style="min-width: 180px;">
+                                                Funcionário <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th onclick="ordenarTabela('valor')" style="min-width: 120px;">
+                                                Valor <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th onclick="ordenarTabela('metodo')" style="min-width: 150px;">
+                                                Pagamento <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th onclick="ordenarTabela('troco')" style="min-width: 100px;">
+                                                Troco <span class="material-icons">unfold_more</span>
+                                            </th>
+                                            <th style="min-width: 100px; text-align: center;">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpoTabela">
+                                        <tr id="loadingRow">
+                                            <td colspan="7" class="vendas-empty-state">
+                                                <div class="vendas-empty-state-content">
+                                                    <span class="material-icons">hourglass_empty</span>
+                                                    <p>Carregando vendas...</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Botões de ação -->
+                            <div class="vendas-button-group">
+                                <button class="btn" onclick="carregarVendas()">
+                                    <span class="material-icons">refresh</span> Atualizar
+                                </button>
+                                <a href="http://localhost/anglivery/interface_principal.html" class="btn">
+                                    <span class="material-icons">arrow_back</span> Voltar
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Resumo (agora fixo no final do card) -->
+                        <div class="vendas-resumo-container">
+                            <h3 class="vendas-resumo-title">Resumo do Período</h3>
+                            <div class="vendas-resumo-grid resumo-grid">
+                                <div class="resumo-item">
+                                    <div class="resumo-label">Ganhos</div>
+                                    <div class="resumo-value" id="ganhosDiaValor">R$ 0</div>
+                                    <div class="resumo-subtitle">Mês: <span id="ganhosMesValor">R$ 0</span></div>
+                                </div>
+                                <div class="resumo-item">
+                                    <div class="resumo-label">Produtos Vendidos</div>
+                                    <div class="resumo-value" id="produtosDia">0</div>
+                                    <div class="resumo-subtitle">Mês: <span id="produtosMes">0</span></div>
+                                </div>
+                                <div class="resumo-item">
+                                    <div class="resumo-label">Clientes Atendidos</div>
+                                    <div class="resumo-value" id="clientesDia">0</div>
+                                    <div class="resumo-subtitle">Mês: <span id="clientesMes">0</span></div>
+                                </div>
+                                <div class="resumo-item">
+                                    <div class="resumo-label">Ticket Médio</div>
+                                    <div class="resumo-value" id="ticketDia">R$ 0</div>
+                                    <div class="resumo-subtitle">Mês: <span id="ticketMes">R$ 0</span></div>
+                                </div>
+                                <div class="resumo-item">
+                                    <div class="resumo-label">Lucro</div>
+                                    <div class="resumo-value" id="lucroDia">R$ 0</div>
+                                    <div class="resumo-subtitle">Mês: <span id="lucroMes">R$ 0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container2">
+                <p>© 2024 Anglivery. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modais -->
+    <div id="modalAviso1" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container">
+                <span class="material-icons">error</span>
+            </div>
+            <h2>Nota fiscal não encontrada.</h2>
+            <p class="perfil-modal-text">Deseja gerar agora?</p>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="confirmarGeracaoNota()">Sim</button>
+                <button class="btn btn-cancel" onclick="fecharModal('modalAviso1')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso2" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container">
+                <span class="material-icons">error</span>
+            </div>
+            <h2>Ocorreu um erro</h2>
+            <div class="form-group">
+                <label>Permita os pop-ups para visualizar a nota fiscal.</label>
+            </div>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso2')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso3" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container">
+                <span class="material-icons">error</span>
+            </div>
+            <h2>Ocorreu um erro</h2>
+            <div class="form-group">
+                <label>Erro ao baixar nota fiscal. Tente novamente.</label>
+            </div>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso3')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso4" class="modal">
+        <div class="modal-content">
+            <div class="perfil-modal-icon-success">
+                <span class="material-icons">check_circle</span>
+            </div>
+            <h2 class="perfil-modal-title-success">Nota fiscal gerada com sucesso!</h2>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso4')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso5" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container">
+                <span class="material-icons">error</span>
+            </div>
+            <h2>Ocorreu um erro</h2>
+            <div class="form-group">
+                <label>Erro ao gerar nota fiscal</label>
+            </div>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso5')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAviso6" class="modal">
+        <div class="modal-content">
+            <div class="pdv-icon-container">
+                <span class="material-icons">error</span>
+            </div>
+            <h2>Ocorreu um erro</h2>
+            <div class="form-group">
+                <label>Erro ao filtrar vendas. Tente novamente.</label>
+            </div>
+            <div class="perfil-modal-buttons">
+                <button class="btn" onclick="fecharModal('modalAviso6')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script src="http://localhost/anglivery/js/vendas.js">
+
+        const API_URL = 'http://localhost/anglivery/api';
+
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+
+        let usuarioLogado = null;
+        try {
+            usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || !usuarioLogado.id) {
+                window.location.href = 'login.html';
+            }
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        });
+
+        // Logout ao clicar em Sair
+        document.querySelectorAll('a[href*="login.html"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('usuarioLogado');
+                localStorage.removeItem('lembrarEmail');
+                window.location.href = 'login.html';
+            });
+        });
+
+        let vendas = [];
+        let ordemAtual = { coluna: '', direcao: 'asc' };
+
+        async function carregarVendas() {
+            try {
+                console.log('========== CARREGANDO VENDAS ==========');
+                const tbody = document.getElementById('corpoTabela');
+                
+                // Mostrar estado de carregamento
+                tbody.innerHTML = `
+                    <tr id="loadingRow">
+                        <td colspan="6" class="empty-state">
+                            <div class="empty-state-content">
+                                <span class="material-icons">hourglass_empty</span>
+                                <p>Carregando vendas...</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                const response = await fetch(`${API_URL}/vendas.php?usuario_id=${usuarioLogado.id}`);
+                const result = await response.json();
+                
+                console.log('Resposta completa da API:', result);
+                
+                if (result.success) {
+                    vendas = result.data || [];
+                    console.log('Vendas carregadas:', vendas.length);
+                    
+                    // Mostrar detalhes de cada venda
+                    if (vendas.length > 0) {
+                        console.log('Exemplo de venda:', vendas[0]);
+                        vendas.forEach((v, index) => {
+                            if (index < 3) { // Mostrar apenas as 3 primeiras para debug
+                                console.log(`Venda ${index + 1}:`, {
+                                    id: v.id,
+                                    data: v.data,
+                                    valor: v.valor,
+                                    cliente: v.cliente
+                                });
+                            }
+                        });
+                    }
+                    
+                    renderizarTabela();
+                    atualizarResumo();
+                } else {
+                    console.error('Erro na API:', result.message);
+                    renderizarErro('Erro ao carregar vendas: ' + result.message);
+                }
+                
+                console.log('========== FIM DO CARREGAMENTO ==========');
+            } catch (error) {
+                console.error('Erro ao carregar vendas:', error);
+                renderizarErro('Erro de conexão. Verifique sua internet.');
+            }
+        }
+
+        let paginaAtual = 1;
+        let itensPorPagina = 25;
+        let vendasFiltradas = [];
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('corpoTabela');
+            tbody.innerHTML = '';
+            
+            // Usar vendas filtradas se houver filtro, senão usar todas
+            vendasFiltradas = vendas;
+            
+            console.log('Renderizando', vendasFiltradas.length, 'vendas - Página', paginaAtual);
+            
+            if (vendasFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <div class="empty-state-content">
+                                <span class="material-icons">shopping_cart</span>
+                                <p>Nenhuma venda registrada</p>
+                                <small style="font-size: 0.9rem; color: #9ca3af;">
+                                    Clique em "Atualizar" para buscar vendas
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                atualizarPaginacao();
+                return;
+            }
+            
+            // Calcular total de páginas
+            const totalPaginas = Math.ceil(vendasFiltradas.length / itensPorPagina);
+            
+            // Se página atual é maior que total de páginas, voltar para última página válida
+            if (paginaAtual > totalPaginas) {
+                paginaAtual = totalPaginas;
+            }
+            
+            // Calcular índices da página atual
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = inicio + itensPorPagina;
+            const vendasPagina = vendasFiltradas.slice(inicio, fim);
+            
+            console.log(`Mostrando vendas de ${inicio + 1} até ${Math.min(fim, vendasFiltradas.length)} de ${vendasFiltradas.length}`);
+            
+            // Renderizar vendas da página atual
+            vendasPagina.forEach((venda) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${formatarData(venda.data)}</td>
+                    <td>${venda.cliente || 'Cliente não informado'}</td>
+                    <td>${venda.funcionario || 'Funcionário não informado'}</td>
+                    <td style="font-weight: 600; color: #059669;">R$ ${formatarValor(venda.valor)}</td>
+                    <td>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                            ${getIconePagamento(venda.metodo)}
+                            ${venda.metodo || 'Não informado'}
+                        </span>
+                    </td>
+                    <td>${venda.troco > 0 ? 'R$ ' + formatarValor(venda.troco) : '-'}</td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-icon" 
+                                onclick="baixarNotaFiscal(${venda.id}, event)" 
+                                title="Imprimir Nota Fiscal"
+                                style="padding: 0.5rem; min-width: auto; background: #F59E0B;">
+                            <span class="material-icons" style="font-size: 1.25rem;">receipt</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            atualizarPaginacao();
+        }
+
+        function atualizarPaginacao() {
+            const totalPaginas = Math.ceil(vendasFiltradas.length / itensPorPagina);
+            
+            let paginacaoDiv = document.getElementById('paginacao');
+            if (!paginacaoDiv) {
+                // Criar div de paginação se não existir
+                paginacaoDiv = document.createElement('div');
+                paginacaoDiv.id = 'paginacao';
+                paginacaoDiv.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem;
+                    border-top: 1px solid #ddd;
+                    background: white;
+                    border-bottom-left-radius: 0.5rem;
+                    border-bottom-right-radius: 0.5rem;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                `;
+                
+                const tableWrapper = document.querySelector('.table-wrapper');
+                if (tableWrapper && tableWrapper.parentNode) {
+                    tableWrapper.parentNode.insertBefore(paginacaoDiv, tableWrapper.nextSibling);
+                }
+            }
+            
+            // Sempre mostrar a paginação se houver vendas
+            if (vendasFiltradas.length === 0) {
+                paginacaoDiv.innerHTML = '';
+                return;
+            }
+            
+            // Se houver apenas uma página, mostrar informação simplificada
+            if (totalPaginas <= 1) {
+                paginacaoDiv.innerHTML = `
+                    <div style="color: #6b7280; font-size: 0.875rem;">
+                        Mostrando ${vendasFiltradas.length} ${vendasFiltradas.length === 1 ? 'venda' : 'vendas'}
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="color: #6b7280; font-size: 0.875rem;">Itens por página:</label>
+                        <select onchange="mudarItensPorPagina(this.value)" 
+                                style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.25rem;">
+                            <option value="10" ${itensPorPagina === 10 ? 'selected' : ''}>10</option>
+                            <option value="25" ${itensPorPagina === 25 ? 'selected' : ''}>25</option>
+                            <option value="50" ${itensPorPagina === 50 ? 'selected' : ''}>50</option>
+                            <option value="100" ${itensPorPagina === 100 ? 'selected' : ''}>100</option>
+                        </select>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calcular índices
+            const inicio = (paginaAtual - 1) * itensPorPagina + 1;
+            const fim = Math.min(paginaAtual * itensPorPagina, vendasFiltradas.length);
+            
+            // Garantir que paginaAtual não ultrapasse totalPaginas
+            if (paginaAtual > totalPaginas) {
+                paginaAtual = totalPaginas;
+            }
+            
+            paginacaoDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <div style="color: #6b7280; font-size: 0.875rem;">
+                        Mostrando ${inicio} até ${fim} de ${vendasFiltradas.length} vendas
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="color: #6b7280; font-size: 0.875rem;">Itens por página:</label>
+                        <select onchange="mudarItensPorPagina(this.value)" 
+                                style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.25rem;">
+                            <option value="10" ${itensPorPagina === 10 ? 'selected' : ''}>10</option>
+                            <option value="25" ${itensPorPagina === 25 ? 'selected' : ''}>25</option>
+                            <option value="50" ${itensPorPagina === 50 ? 'selected' : ''}>50</option>
+                            <option value="100" ${itensPorPagina === 100 ? 'selected' : ''}>100</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.25rem;">
+                    <button onclick="irParaPagina(1)" 
+                            ${paginaAtual === 1 ? 'disabled' : ''}
+                            class="btn-paginacao"
+                            title="Primeira página">
+                        <span class="material-icons">first_page</span>
+                    </button>
+                    
+                    <button onclick="irParaPagina(${paginaAtual - 1})" 
+                            ${paginaAtual === 1 ? 'disabled' : ''}
+                            class="btn-paginacao"
+                            title="Página anterior">
+                        <span class="material-icons">chevron_left</span>
+                    </button>
+                    
+                    <div style="display: flex; gap: 0.25rem; align-items: center; padding: 0 0.5rem;">
+                        ${gerarBotoesPaginas(paginaAtual, totalPaginas)}
+                    </div>
+                    
+                    <button onclick="irParaPagina(${paginaAtual + 1})" 
+                            ${paginaAtual === totalPaginas ? 'disabled' : ''}
+                            class="btn-paginacao"
+                            title="Próxima página">
+                        <span class="material-icons">chevron_right</span>
+                    </button>
+                    
+                    <button onclick="irParaPagina(${totalPaginas})" 
+                            ${paginaAtual === totalPaginas ? 'disabled' : ''}
+                            class="btn-paginacao"
+                            title="Última página">
+                        <span class="material-icons">last_page</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function gerarBotoesPaginas(atual, total) {
+            let html = '';
+            let inicio = Math.max(1, atual - 2);
+            let fim = Math.min(total, atual + 2);
+            
+            // Ajustar para sempre mostrar 5 páginas quando possível
+            if (fim - inicio < 4) {
+                if (atual <= 3) {
+                    fim = Math.min(5, total);
+                } else {
+                    inicio = Math.max(1, total - 4);
+                }
+            }
+            
+            for (let i = inicio; i <= fim; i++) {
+                const ativo = i === atual ? 'style="background: #34B08C; color: white;"' : '';
+                html += `
+                    <button onclick="irParaPagina(${i})" 
+                            class="btn-paginacao" 
+                            ${ativo}>
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            return html;
+        }
+
+        function irParaPagina(pagina) {
+            const totalPaginas = Math.ceil(vendasFiltradas.length / itensPorPagina);
+            
+            if (pagina < 1 || pagina > totalPaginas) return;
+            
+            paginaAtual = pagina;
+            renderizarTabela();
+            
+            // Scroll suave para o topo da tabela
+            const tableCard = document.querySelector('.table-card');
+            if (tableCard) {
+                tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function mudarItensPorPagina(novosItens) {
+            itensPorPagina = parseInt(novosItens);
+            paginaAtual = 1; // Voltar para primeira página
+            renderizarTabela();
+        }
+
+        function renderizarErro(mensagem) {
+            const tbody = document.getElementById('corpoTabela');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        <div class="empty-state-content">
+                            <span class="material-icons" style="color: #ef4444;">error</span>
+                            <p style="color: #ef4444;">${mensagem}</p>
+                            <button class="btn" onclick="carregarVendas()" style="margin-top: 1rem; padding: 0.5rem 1rem;">
+                                <span class="material-icons">refresh</span> Tentar novamente
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function formatarData(dataString) {
+            if (!dataString) return 'Data inválida';
+            
+            try {
+                // Se a data já está no formato DD/MM/YYYY HH:mm, retornar direto
+                if (dataString.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    return dataString;
+                }
+                
+                // Se está no formato ISO (YYYY-MM-DD ou timestamp)
+                const data = new Date(dataString);
+                if (isNaN(data.getTime())) {
+                    return dataString; // Retorna original se não conseguir converter
+                }
+                
+                // Formatar para DD/MM/YYYY HH:mm
+                const dia = String(data.getDate()).padStart(2, '0');
+                const mes = String(data.getMonth() + 1).padStart(2, '0');
+                const ano = data.getFullYear();
+                const hora = String(data.getHours()).padStart(2, '0');
+                const minuto = String(data.getMinutes()).padStart(2, '0');
+                
+                return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+            } catch (e) {
+                console.error('Erro ao formatar data:', dataString, e);
+                return dataString;
+            }
+        }
+
+        function formatarValor(valor) {
+            const num = parseFloat(valor);
+            if (isNaN(num)) return '0.00';
+            return num.toFixed(2).replace('.', ',');
+        }
+
+        function getIconePagamento(metodo) {
+            const icones = {
+                'Dinheiro': 'payments',
+                'Cartão': 'credit_card',
+                'PIX': 'qr_code',
+                'Débito': 'account_balance',
+                'Crédito': 'credit_score'
+            };
+            
+            const icone = icones[metodo] || 'attach_money';
+            return `<span class="material-icons" style="font-size: 1.1rem;">${icone}</span>`;
+        }
+
+        function ordenarTabela(coluna) {
+            if (ordemAtual.coluna === coluna) {
+                ordemAtual.direcao = ordemAtual.direcao === 'asc' ? 'desc' : 'asc';
+            } else {
+                ordemAtual.coluna = coluna;
+                ordemAtual.direcao = 'asc';
+            }
+
+            vendasFiltradas.sort((a, b) => {
+                let valorA = a[coluna] || '';
+                let valorB = b[coluna] || '';
+                
+                // Se for valor numérico
+                if (coluna === 'valor' || coluna === 'troco') {
+                    valorA = parseFloat(valorA) || 0;
+                    valorB = parseFloat(valorB) || 0;
+                } else if (typeof valorA === 'string') {
+                    valorA = valorA.toLowerCase();
+                    valorB = valorB.toLowerCase();
+                }
+
+                if (ordemAtual.direcao === 'asc') {
+                    return valorA > valorB ? 1 : -1;
+                } else {
+                    return valorA < valorB ? 1 : -1;
+                }
+            });
+
+            renderizarTabela();
+        }
+
+        // Variável global para armazenar vendaId e event temporariamente
+        let notaFiscalTemp = { vendaId: null, event: null };
+
+        async function baixarNotaFiscal(vendaId, event) {
+            try {
+                console.log('Baixando nota fiscal da venda:', vendaId);
+                
+                // Pegar referência do botão
+                const btnElement = event ? event.target.closest('button') : null;
+                let originalHTML = '';
+                
+                if (btnElement) {
+                    originalHTML = btnElement.innerHTML;
+                    btnElement.disabled = true;
+                    btnElement.innerHTML = '<span class="material-icons" style="animation: spin 1s linear infinite;">hourglass_empty</span>';
+                }
+                
+                const response = await fetch(`${API_URL}/notas_fiscais.php?usuario_id=${usuarioLogado.id}&venda_id=${vendaId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const nota = result.data;
+                    
+                    // Converter base64 para HTML
+                    const htmlContent = atob(nota.pdf_base64);
+                    
+                    // Criar iframe invisível para impressão
+                    const iframe = document.createElement('iframe');
+                    iframe.style.position = 'fixed';
+                    iframe.style.right = '0';
+                    iframe.style.bottom = '0';
+                    iframe.style.width = '0';
+                    iframe.style.height = '0';
+                    iframe.style.border = 'none';
+                    
+                    document.body.appendChild(iframe);
+                    
+                    // Escrever conteúdo e imprimir
+                    const iframeDoc = iframe.contentWindow.document;
+                    iframeDoc.open();
+                    iframeDoc.write(htmlContent);
+                    iframeDoc.close();
+                    
+                    // Aguardar carregamento e imprimir
+                    iframe.onload = () => {
+                        setTimeout(() => {
+                            try {
+                                iframe.contentWindow.focus();
+                                iframe.contentWindow.print();
+                                
+                                // Remover iframe após impressão
+                                setTimeout(() => {
+                                    document.body.removeChild(iframe);
+                                }, 1000);
+                            } catch (e) {
+                                console.error('Erro ao imprimir:', e);
+                                document.body.removeChild(iframe);
+                            }
+                        }, 500);
+                    };
+                    
+                    // Restaurar botão
+                    if (btnElement) {
+                        btnElement.disabled = false;
+                        btnElement.innerHTML = originalHTML;
+                    }
+                } else {
+                    // Nota ainda não existe - salvar dados e mostrar modal
+                    if (btnElement) {
+                        btnElement.disabled = false;
+                        btnElement.innerHTML = originalHTML;
+                    }
+                    
+                    // Salvar dados temporariamente
+                    notaFiscalTemp.vendaId = vendaId;
+                    notaFiscalTemp.event = event;
+                    
+                    // Mostrar modal
+                    document.getElementById('modalAviso1').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao baixar nota:', error);
+                document.getElementById('modalAviso3').style.display = 'block';
+                
+                // Restaurar botão em caso de erro
+                if (event) {
+                    const btnElement = event.target.closest('button');
+                    if (btnElement) {
+                        btnElement.disabled = false;
+                        btnElement.innerHTML = '<span class="material-icons" style="font-size: 1.25rem;">receipt</span>';
+                    }
+                }
+            }
+        }
+
+        async function gerarNotaFiscalVenda(vendaId, event) {
+            try {
+                console.log('Gerando nota fiscal para venda:', vendaId);
+                
+                const response = await fetch(`${API_URL}/notas_fiscais.php?usuario_id=${usuarioLogado.id}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ venda_id: vendaId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('modalAviso4').style.display = 'block';
+                    
+                    // Imprimir automaticamente
+                    const nota = result.data;
+                    const htmlContent = atob(nota.pdf_base64);
+                    
+                    const iframe = document.createElement('iframe');
+                    iframe.style.position = 'fixed';
+                    iframe.style.right = '0';
+                    iframe.style.bottom = '0';
+                    iframe.style.width = '0';
+                    iframe.style.height = '0';
+                    iframe.style.border = 'none';
+                    
+                    document.body.appendChild(iframe);
+                    
+                    const iframeDoc = iframe.contentWindow.document;
+                    iframeDoc.open();
+                    iframeDoc.write(htmlContent);
+                    iframeDoc.close();
+                    
+                    iframe.onload = () => {
+                        setTimeout(() => {
+                            try {
+                                iframe.contentWindow.focus();
+                                iframe.contentWindow.print();
+                                setTimeout(() => {
+                                    document.body.removeChild(iframe);
+                                }, 1000);
+                            } catch (e) {
+                                console.error('Erro ao imprimir:', e);
+                                document.body.removeChild(iframe);
+                            }
+                        }, 500);
+                    };
+                } else {
+                    console.error('Erro ao gerar nota: ' + result.message);
+                    document.getElementById('modalAviso5').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao gerar nota:', error);
+                document.getElementById('modalAviso5').style.display = 'block';
+            }
+        }
+
+        // Função para confirmar geração de nota fiscal (chamada pelo modal)
+        function confirmarGeracaoNota() {
+            fecharModal('modalAviso1');
+            
+            if (notaFiscalTemp.vendaId) {
+                gerarNotaFiscalVenda(notaFiscalTemp.vendaId, notaFiscalTemp.event);
+                
+                // Limpar dados temporários
+                notaFiscalTemp = { vendaId: null, event: null };
+            }
+        }
+
+        // Animação de loading
+        const styleLoading = document.createElement('style');
+        styleLoading.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        if (!document.getElementById('spinAnimation')) {
+            styleLoading.id = 'spinAnimation';
+            document.head.appendChild(styleLoading);
+        }
+
+
+        async function filtrarVendas() {
+            const dataInicial = document.getElementById('dataInicial').value;
+            const dataFinal = document.getElementById('dataFinal').value;
+            const cliente = document.getElementById('filtroCliente').value;
+            const funcionario = document.getElementById('filtroFuncionario').value;
+
+            let url = `${API_URL}/vendas.php?usuario_id=${usuarioLogado.id}`;
+            
+            if (dataInicial) url += `&data_inicial=${dataInicial}`;
+            if (dataFinal) url += `&data_final=${dataFinal}`;
+            if (cliente) url += `&cliente_id=${cliente}`;
+            if (funcionario) url += `&funcionario_id=${funcionario}`;
+
+            try {
+                console.log('Filtrando vendas:', url);
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    vendas = result.data || [];
+                    console.log('Vendas filtradas:', vendas.length);
+                    
+                    // Resetar para primeira página ao filtrar
+                    paginaAtual = 1;
+                    
+                    renderizarTabela();
+                    atualizarResumo();
+                } else {
+                    console.error('Erro ao filtrar:', result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('modalAviso6').style.display = 'block';
+            }
+        }
+
+        async function carregarFiltros() {
+            try {
+                // Carregar clientes
+                const responseClientes = await fetch(`${API_URL}/clientes.php?usuario_id=${usuarioLogado.id}`);
+                const resultClientes = await responseClientes.json();
+                
+                if (resultClientes.success) {
+                    const selectCliente = document.getElementById('filtroCliente');
+                    selectCliente.innerHTML = '<option value="">Todos</option>';
+                    
+                    const clientes = resultClientes.data || [];
+                    clientes.forEach(cliente => {
+                        const option = document.createElement('option');
+                        option.value = cliente.id;
+                        option.textContent = cliente.nome;
+                        selectCliente.appendChild(option);
+                    });
+                }
+                
+                // Carregar funcionários
+                const responseFuncionarios = await fetch(`${API_URL}/funcionarios.php?usuario_id=${usuarioLogado.id}`);
+                const resultFuncionarios = await responseFuncionarios.json();
+                
+                if (resultFuncionarios.success) {
+                    const selectFuncionario = document.getElementById('filtroFuncionario');
+                    selectFuncionario.innerHTML = '<option value="">Todos</option>';
+                    
+                    const funcionarios = resultFuncionarios.data || [];
+                    funcionarios.forEach(func => {
+                        if (func.ativo) {
+                            const option = document.createElement('option');
+                            option.value = func.id;
+                            option.textContent = func.nome;
+                            selectFuncionario.appendChild(option);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar filtros:', error);
+            }
+        }
+
+        function atualizarResumo() {
+            const hoje = new Date();
+            const diaHoje = hoje.getDate();
+            const mesAtual = hoje.getMonth();
+            const anoAtual = hoje.getFullYear();
+            
+            console.log('========== ATUALIZANDO RESUMO ==========');
+            console.log('Data de hoje:', `${diaHoje}/${mesAtual + 1}/${anoAtual}`);
+            console.log('Total de vendas:', vendas.length);
+            
+            // Usar SEMPRE o array 'vendas' original para cálculos do dia/mês
+            // O filtro só afeta a exibição na tabela (vendasFiltradas)
+            
+            // Filtrar por dia
+            const vendasHoje = vendas.filter(v => {
+                if (!v.data) return false;
+                
+                try {
+                    const partes = v.data.split(' ')[0].split('/');
+                    if (partes.length !== 3) return false;
+                    
+                    const diaVenda = parseInt(partes[0]);
+                    const mesVenda = parseInt(partes[1]) - 1;
+                    const anoVenda = parseInt(partes[2]);
+                    
+                    return diaVenda === diaHoje && mesVenda === mesAtual && anoVenda === anoAtual;
+                } catch (e) {
+                    return false;
+                }
+            });
+            
+            // Filtrar por mês
+            const vendasMes = vendas.filter(v => {
+                if (!v.data) return false;
+                
+                try {
+                    const partes = v.data.split(' ')[0].split('/');
+                    if (partes.length !== 3) return false;
+                    
+                    const mesVenda = parseInt(partes[1]) - 1;
+                    const anoVenda = parseInt(partes[2]);
+                    
+                    return mesVenda === mesAtual && anoVenda === anoAtual;
+                } catch (e) {
+                    return false;
+                }
+            });
+
+            console.log('Vendas hoje:', vendasHoje.length);
+            console.log('Vendas mês:', vendasMes.length);
+
+            // Ganhos
+            const ganhosHoje = vendasHoje.reduce((sum, v) => sum + (parseFloat(v.valor) || 0), 0);
+            const ganhosMes = vendasMes.reduce((sum, v) => sum + (parseFloat(v.valor) || 0), 0);
+            
+            document.getElementById('ganhosDiaValor').textContent = `R$ ${ganhosHoje.toFixed(2).replace('.', ',')}`;
+            document.getElementById('ganhosMesValor').textContent = `R$ ${ganhosMes.toFixed(2).replace('.', ',')}`;
+
+            // Produtos
+            const produtosHoje = vendasHoje.reduce((sum, v) => sum + (parseInt(v.quantidade_total) || 0), 0);
+            const produtosMes = vendasMes.reduce((sum, v) => sum + (parseInt(v.quantidade_total) || 0), 0);
+            
+            document.getElementById('produtosDia').textContent = produtosHoje;
+            document.getElementById('produtosMes').textContent = produtosMes;
+
+            // Clientes
+            const clientesHoje = vendasHoje.length;
+            const clientesMes = vendasMes.length;
+            
+            document.getElementById('clientesDia').textContent = clientesHoje;
+            document.getElementById('clientesMes').textContent = clientesMes;
+
+            // Ticket Médio
+            const ticketHoje = vendasHoje.length > 0 ? ganhosHoje / vendasHoje.length : 0;
+            const ticketMes = vendasMes.length > 0 ? ganhosMes / vendasMes.length : 0;
+            
+            document.getElementById('ticketDia').textContent = `R$ ${ticketHoje.toFixed(2).replace('.', ',')}`;
+            document.getElementById('ticketMes').textContent = `R$ ${ticketMes.toFixed(2).replace('.', ',')}`;
+
+            // Lucro (30% de margem)
+            const lucroHoje = ganhosHoje * 0.3;
+            const lucroMes = ganhosMes * 0.3;
+            
+            document.getElementById('lucroDia').textContent = `R$ ${lucroHoje.toFixed(2).replace('.', ',')}`;
+            document.getElementById('lucroMes').textContent = `R$ ${lucroMes.toFixed(2).replace('.', ',')}`;
+        }
+
+        function fecharModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.style.display = 'none';
+        }
+
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.style.display = 'block';
+        }
+
+        // Carregar dados quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página carregada, iniciando carregamento de vendas...');
+            carregarFiltros();
+            carregarVendas();
+        });
+    </script>
+</body>
+</html>

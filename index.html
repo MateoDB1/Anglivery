@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglivery - Sistema de Gestão Completo</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://localhost/anglivery/css/estilo.css">
+</head>
+<body class="body">
+    <div class="fundo"></div>
+    
+    <div class="mobile-menu">
+        <button class="mobile-menu__toggle" id="sidebar-toggle-main">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar--fechada" id="sidebar">
+        <div class="sidebar__header">
+            <a class="logo" href="http://localhost/anglivery/index.html">
+                <img alt="Anglivery Logo" src="http://localhost/anglivery/img/Logo Anglivery.png">
+            </a>
+        </div>
+        
+        <nav class="nav">
+            <a class="nav__link" href="http://localhost/anglivery/index.html">
+                <span class="material-icons">home</span> Início
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/login.html">
+                <span class="material-icons">login</span> Login
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/index.html/#sobre">
+                <span class="material-icons">info</span> Sobre
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/index.html/#recursos">
+                <span class="material-icons">star</span> Recursos
+            </a>
+            <a class="nav__link" href="http://localhost/anglivery/index.html/#contato">
+                <span class="material-icons">contact_phone</span> Contato
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="content">
+        <main>
+            <div class="carousel carousel--fullscreen" id="carrossel">
+                <div class="carousel__container" class="carousel slide" data-ride="carousel">
+                    <div class="carousel__item carousel__item--active">
+                        <img alt="Sistema PDV Completo" class="carousel__image" src="http://localhost/anglivery/img/Carrossel1.png">
+                        <div class="carousel__overlay">
+                            <div class="carousel__content">
+                                <h2 class="carousel__title">Sistema PDV Modular e Escalável</h2>
+                                <p class="carousel__text">Solução completa para pequenos e médios negócios com módulo central gratuito</p>
+                                <a href="http://localhost/anglivery/login.html" class="btn">Comece Agora</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel__item">
+                        <img alt="Controle Total" class="carousel__image" src="http://localhost/anglivery/img/Carrossel2.png">
+                        <div class="carousel__overlay">
+                            <div class="carousel__content">
+                                <h2 class="carousel__title">Controle Total do Seu Negócio</h2>
+                                <p class="carousel__text">Gestão de vendas, inventário, clientes e funcionários em uma única plataforma</p>
+                                <a href="http://localhost/anglivery/login.html" class="btn">Experimentar</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel__item">
+                        <img alt="Extensões Especializadas" class="carousel__image" src="http://localhost/anglivery/img/Carrossel3.png">
+                        <div class="carousel__overlay">
+                            <div class="carousel__content">
+                                <h2 class="carousel__title">Extensões Especializadas</h2>
+                                <p class="carousel__text">Adapte o sistema para seu setor específico com extensões pagas</p>
+                                <a href="http://localhost/anglivery/login.html" class="btn">Conhecer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section id="sobre" class="section">
+                <div class="container">
+                    <div class="content-card">
+                        <div class="section__content">
+                            <div class="section__image">
+                                <img alt="Sobre o Anglivery" src="http://localhost/anglivery/img/Conteudo1.png">
+                            </div>
+                            <div class="section__text">
+                                <h2>Sobre o Anglivery</h2>
+                                <p>O Anglivery é uma solução completa para pontos de venda que auxilia pequenos e médios negócios a gerenciarem suas operações comerciais. Com uma interface intuitiva e recursos robustos, o sistema oferece tudo que uma empresa precisa para otimizar suas vendas e controlar seu negócio de forma eficiente.</p>
+                                <p>O módulo central é totalmente gratuito e inclui login seguro para proteger os dados da empresa, PDV rápido e prático para processar vendas, inventário completo para controlar estoque, cadastro de clientes, gestão de funcionários e relatórios de vendas. Tudo integrado com a nuvem para evitar perda de dados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="recursos" class="section">
+                <div class="container">
+                    <div class="content-card">
+                        <div class="section__content section__content--reverse">
+                            <div class="section__image">
+                                <img alt="Recursos do Sistema" src="http://localhost/anglivery/img/Conteudo2.png">
+                            </div>
+                            <div class="section__text">
+                                <h2>Recursos Poderosos</h2>
+                                <p><strong>Interface de Vendas Otimizada:</strong> PDV com lista de produtos organizada e busca rápida por nome ou código de barras para agilizar o processo de venda.</p>
+                                <p><strong>Sincronização em Tempo Real:</strong> Atualização bidirecional de dados entre diferentes dispositivos e pontos de venda, garantindo informações sempre atualizadas.</p>
+                                <p><strong>Personalização Completa:</strong> Configure cores, layout e disposição dos elementos conforme suas preferências, com salvamento em sua conta.</p>
+                                <p><strong>Segurança Integrada:</strong> Senhas criptografadas, controle de acesso por permissões e integração total com a nuvem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="content-card">
+                        <div class="section__content">
+                            <div class="section__image">
+                                <img alt="Extensões Especializadas" src="http://localhost/anglivery/img/Conteudo3.png">
+                            </div>
+                            <div class="section__text">
+                                <h2>Extensões Especializadas</h2>
+                                <p>Expanda as capacidades do sistema com extensões pagas, adaptando-o às necessidades específicas do seu setor:</p>
+                                <p><strong>Concessionárias:</strong> Controle de veículos, documentação e financiamento.</p>
+                                <p><strong>Lojas de Roupa:</strong> Controle de tamanhos, cores e coleções sazonais.</p>
+                                <p><strong>Eletrônicos:</strong> Controle de garantia e assistência técnica.</p>
+                                <p><strong>Delivery:</strong> Pedidos online, rastreamento de entregas e otimização de rotas.</p>
+                                <p><strong>Padarias:</strong> Controle de validade, produção diária e gestão de receitas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer" id="contato">
+            <div class="container2">
+                <p>© 2024 Anglivery. Todos os direitos reservados.</p>
+                <div class="footer__links">
+                    <a href="http://localhost/anglivery/termos.html">Termos de Serviço</a>
+                    <span>|</span>
+                    <a href="http://localhost/anglivery/privacidade.html">Política de Privacidade</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+     <!-- INÍCIO DO CÓDIGO VLIBRAS -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <!-- FIM DO CÓDIGO VLIBRAS -->
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle-main');
+        
+        function toggleSidebar() {
+            sidebar.classList.toggle('sidebar--fechada');
+            const icon = toggleBtn.querySelector('.material-icons');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (sidebar.classList.contains('sidebar--fechada')) {
+                icon.textContent = 'menu';
+                mobileMenu.classList.remove('mobile-menu--deslocada');
+            } else {
+                icon.textContent = 'close';
+                mobileMenu.classList.add('mobile-menu--deslocada');
+            }
+        }
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target) && !sidebar.classList.contains('sidebar--fechada')) {
+                toggleSidebar();
+            }
+        });
+
+        const carousel = document.getElementById('carrossel');
+        const items = carousel.querySelectorAll('.carousel__item');
+        let currentItem = 0;
+        let carouselInterval;
+
+        function showItem(index) {
+            items.forEach((item, i) => {
+                item.classList.remove('carousel__item--active');
+                if (i === index) {
+                    item.classList.add('carousel__item--active');
+                }
+            });
+        }
+
+        function nextItem() {
+            currentItem = (currentItem + 1) % items.length;
+            showItem(currentItem);
+        }
+
+        function startCarousel() {
+            carouselInterval = setInterval(nextItem, 5000);
+        }
+
+        showItem(0);
+        startCarousel();
+
+        carousel.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+        carousel.addEventListener('mouseleave', () => startCarousel());
+    </script>
+</body>
+</html>
